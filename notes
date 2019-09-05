@@ -1,0 +1,24 @@
+1. dependencies:
+    make
+    scons
+    pandoc
+    patch
+    context
+    texlive
+    texlive-base
+    texlive-latex-recommended
+    texlive-fonts-extra
+
+
+2. w pliku artlist.txt zmienić rok 2018 -> 2019
+3. usunąć resztę wpisów z artlist.txt których nie ma w folderach
+4. zmienić nazwę pliku __context__/src/pycon2018 -> 2019
+5. uporządkować presentations/ i workshops/
+    * mają zawierać foldery, które zawierają text.md oraz README.md
+    * text.md to tekst artykułu
+    * README.md to tytuł i autor
+    * nie wiem czy tak MUSI być ale tak mi się wydaje
+
+TODO:
+    * Zdjęcia
+    * za długie linijki

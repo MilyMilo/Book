@@ -1,0 +1,162 @@
+#!/usr/bin/env python2
+# -*- coding: UTF-8 -*-
+# Get articles and directories list
+
+'''
+COLUMNS=$COLUMNS time scons; red_green_bar.py $? $COLUMNS
+'''
+
+import os
+import glob
+import time
+
+import pl_txt
+
+created_pdf = time.strftime("pyconbook-%Y.pdf")
+verbose = 0
+if os.getenv('PLAIN'):
+    create_pdfs = 0
+    omit_diffs = 1
+else:
+    create_pdfs = 1
+    omit_diffs = 0
+
+tty_columns = os.getenv('COLUMNS')
+if tty_columns:
+    tty_columns = int(tty_columns)
+
+copy_images = 1
+only_first_article_for_testing = 0
+
+if 'TEXINPUTS' not in os.environ:
+    os.environ['TEXINPUTS']=''
+os.environ['TEXINPUTS'] = (
+    ".:..:../..:../../sty:" +
+    os.environ['TEXINPUTS'] )
+env = Environment(ENV=os.environ)
+
+genart_file = 'genart.txt'
+
+def prepare_art(artlist_file):
+    al_loc_ls = []
+    for line in open(artlist_file):
+        line = pl_txt.remove_comments(line)
+        words = line.split()
+        if words:
+            alias, location = words[:2]
+            al_loc_ls.append([alias, location])
+
+    if only_first_article_for_testing:
+        al_loc_ls = al_loc_ls[:1]
+
+    selected = os.getenv('SELECTED')
+    if selected:
+        sel_ls = selected.split()
+        al_loc_ls = filter(lambda x: x[0] in sel_ls, al_loc_ls)
+    return al_loc_ls
+
+pl_txt.sanity_check()
+al_loc_ls = prepare_art('artlist.txt')
+new_data = pl_txt.prepare_file(al_loc_ls)
+pl_txt.write_if_needed(genart_file, new_data)
+
+final_pdfs = map(
+    lambda x: pl_txt.art_file_pdf(x[0]),
+    al_loc_ls)
+
+slave_ls = filter(lambda x: not pl_txt.is_master(x[0]), al_loc_ls)
+
+slave_pdfs = map(
+    lambda x: pl_txt.art_file_pdf(x[0]),
+    slave_ls)
+
+pl_txt.env_command(
+    env,
+    created_pdf,
+    final_pdfs,
+    pl_txt.final_command(),
+    )
+
+uniq_prefix = ".tmp_%f_" % time.time()
+uniq_counter = 0
+for alias, location in al_loc_ls:
+    txt_line = pl_txt.prepare_line(tty_columns, alias, location)
+
+    # alias = 
+    # ('build', alias, '/', alias)
+    root = pl_txt.art_file_core(alias)
+    src_ls = (
+        [
+            root + ".tex",
+            genart_file,
+            pl_txt.art_pages_file(),
+            ] +
+        glob.glob("sty/*") +
+        glob.glob("src/" + alias + "/*"))
+    if pl_txt.is_master(alias):
+       src_ls.extend(slave_pdfs)
+    one_talk = pl_txt.OneTalk(tty_columns, alias, location, copy_images, create_pdfs)
+    pl_txt.env_command(
+        env,
+        root + ".pdf",
+        src_ls,
+        one_talk.small_fn,
+        chdir=pl_txt.art_home(alias),
+        )
+    loc_src  = "src/" + alias + "/text.tex"
+    main_src = "../" + location + "/text.tex"
+    main_md  = "../" + location + "/text.md"
+    diffsrc  = glob.glob("src/" + alias + ".diff")
+    if pl_txt.check_for_source(alias, loc_src):
+        pl_txt.env_command(
+            env,
+            root + ".tex",
+            loc_src,
+            Copy('$TARGET','$SOURCE'),
+            )
+    elif pl_txt.check_for_source(alias, main_src):
+        pl_txt.env_command(
+            env,
+            root + ".tex",
+            main_src,
+            Copy('$TARGET','$SOURCE'),
+            )
+    elif pl_txt.check_for_source(alias, main_md):
+        if alias == 'pyladies':
+            pyladies = 1
+        else:
+            pyladies = 0
+        uniq_counter += 1
+        gm_dir = '%s%02d' % (uniq_prefix, uniq_counter)
+        pandoc_patch_ls = [
+            Delete(gm_dir),
+            Mkdir(gm_dir),
+            pl_txt.run_pandoc(main_md, gm_dir, pyladies=pyladies),
+            ]
+        if diffsrc:
+            pandoc_patch_ls.append(
+                pl_txt.apply_patch(diffsrc, gm_dir, test_mode=omit_diffs)
+                )
+        pandoc_patch_ls.append(
+            Copy("$TARGET", gm_dir + "/${TARGET.file}")
+            )
+        pl_txt.env_command(
+            env,
+            root + ".tex",
+            [main_md] + diffsrc + Glob("src/*.inc.tex"),
+            pandoc_patch_ls,
+           )
+    else:
+        raise RuntimeError("Main file not found.")
+
+
+pl_txt.env_command(
+    env,
+    pl_txt.art_pages_file(),
+    [],
+    [],
+    )
+
+# Local Variables:
+# mode: python
+# End:

@@ -1,0 +1,33 @@
+% Cokolwiek jest po procencie, jest pijane i jest nieuwzględniane
+% bez TeX-a i bez mejka też nie.
+% puste wiersze są ok.
+
+% To jest w zasadzie agenda i najlepiej byłoby, żeby trzymać to
+% w tej samej kolejności co i agendę
+% jeśli ktoś uważa, że powinno się raczej parsować agendę, to w
+% zasadzie też się to da zrobić, ale może po prostu będziemy ten
+% plik pilnować.
+
+% Pierwszy powinien być ,,referat'' pycon2018, bo wstęp i spis
+% treści
+%% UPDATE:
+%% Pycon 2018 wymyślił potwornie długie nazwy. TeX tego nie łyka
+%% Zatem pierwsza jest nazwa TeX-owa, druga nazwa z katalogu
+
+pycon2019 pycon2019
+
+%% Zakładam że tu leci 'spis treści' z których generujemy
+
+deep_learning presentations/a-gentle-introduction-to-deep-reinforcement-learning
+agile presentations/agile-mindset-and-code
+ble presentations/bluetooth-low-energy-z-pybluez
+open_source presentations/how-to-start-open-source
+robot_integration presentations/integracja-zadan-testowych-przy-uzyciu-robot-framework
+nieprogramisci presentations/jak-pracowac-z-programujacymi-nieprogramistami
+kompilator presentations/kompilator-w-pythonie
+python38 presentations/python-3.8-hit-czy-kit
+pandas presentations/pythons-pandas-big-data
+robot_hub presentations/robot-framework-hub-2
+argo presentations/testowanie-mikroserwisow-z-argo-i-zalenium
+tipy presentations/tipy-o-typowaniu
+wzorce presentations/wzorce-projektowe-w-python
