@@ -1,0 +1,17 @@
+--- argo.tex
++++ argo.tex
+@@ -1,11 +1,9 @@
+ \usemodule[pycon-yyyy]
+ \starttext
+ 
+-
+-\section[testowanie-mikroserwisów-z-argo-i-zalenium]{Testowanie
+-mikroserwisów z Argo i Zalenium}
+-
+-Maciej Brzozowski
++\Title{Testowanie mikroserwisów z Argo i Zalenium}
++\Author{Maciej Brzozowski}
++\MakeTitlePage
+ 
+ \subsection[wprowadzenie]{Wprowadzenie}
+ 

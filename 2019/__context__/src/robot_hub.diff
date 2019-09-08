@@ -1,0 +1,17 @@
+--- robot_hub.tex
++++ robot_hub.tex
+@@ -1,11 +1,9 @@
+ \usemodule[pycon-yyyy]
+ \starttext
+ 
+-
+-\section[rfhub2-od-testera-dla-testera.-dokumentacja-w-jednym-miejscu]{RfHub2
+--- od testera dla testera. Dokumentacja w jednym miejscu}
+-
+-Maciej Wiczk
++\Title{RfHub2 -- od testera dla testera. Dokumentacja w jednym miejscu}
++\Author{Maciej Wiczk}
++\MakeTitlePage
+ 
+ \subsection[wprowadzenie]{Wprowadzenie}
+ 

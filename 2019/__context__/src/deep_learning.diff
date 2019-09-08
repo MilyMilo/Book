@@ -1,0 +1,18 @@
+--- deep_learning.tex
++++ deep_learning.tex
+@@ -1,12 +1,9 @@
+ \usemodule[pycon-yyyy]
+ \starttext
+ 
+-
+-\section[win-rate-a-gentle-introduction-to-deep-reinforcement-learning]{100\letterpercent{}
+-win rate?! A gentle introduction to (Deep) Reinforcement Learning}
+-
+-Wadim Sokołowski,
+-\useURL[url1][mailto:wlasek1412@gmail.com][][wlasek1412@gmail.com]\from[url1]
++\Title{100\letterpercent{} win rate?! A gentle introduction to (Deep) Reinforcement Learning}
++\Author{Wadim Sokołowski}
++\MakeTitlePage
+ 
+ \section[abstract]{Abstract}
+ 

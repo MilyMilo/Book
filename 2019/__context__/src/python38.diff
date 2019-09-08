@@ -1,0 +1,16 @@
+--- python38.tex
++++ python38.tex
+@@ -1,10 +1,9 @@
+ \usemodule[pycon-yyyy]
+ \starttext
+ 
+-
+-\section[python-3.8---hit-czy-shit]{Python 3.8 - hit, czy shit?}
+-
+-Marcin Bardź
++\Title{Python 3.8 - hit, czy shit?}
++\Author{Marcin Bardź}
++\MakeTitlePage
+ 
+ \subsection[streszczenie]{Streszczenie}
+ 

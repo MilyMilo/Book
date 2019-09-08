@@ -1,0 +1,17 @@
+--- ble.tex
++++ ble.tex
+@@ -1,10 +1,10 @@
+ \usemodule[pycon-yyyy]
+ \starttext
+ 
+-
+-\section[bluetooth-low-energy-z-pybluez]{Bluetooth Low Energy z PyBluez}
+-
+-Krzysztof Czarnota Marcin Bardź
++\Title{Bluetooth Low Energy z PyBluez}
++\Author{Marcin Bardź}
++\Author{Krzysztof Czarnota}
++\MakeTitlePage
+ 
+ \subsection[wprowadzenie]{Wprowadzenie}
+ 

@@ -1,0 +1,17 @@
+--- open_source.tex
++++ open_source.tex
+@@ -1,11 +1,9 @@
+ \usemodule[pycon-yyyy]
+ \starttext
+ 
+-
+-\section[jak-zacząć-udzielać-się-w-projektach-open-source]{Jak zacząć
+-udzielać się w projektach Open Source?}
+-
+-Piotr Gaczkowski
++\Title{Jak zacząć udzielać się w projektach Open Source?}
++\Author{Piotr Gaczkowski}
++\MakeTitlePage
+ 
+ \subsection[dlaczego-warto-zacząć]{Dlaczego warto zacząć?}
+ 

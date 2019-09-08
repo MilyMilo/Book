@@ -1,0 +1,18 @@
+--- robot_integration.tex
++++ robot_integration.tex
+@@ -1,11 +1,10 @@
+ \usemodule[pycon-yyyy]
+ \starttext
+ 
+-
+-\section[integracja-zadań-testowych-przy-użyciu-robot-framework]{Integracja
+-zadań testowych przy użyciu Robot Framework}
+-
+-Mateusz Kotas Krzysztof Synak
++\Title{Integracja zadań testowych przy użyciu Robot Framework}
++\Author{Mateusz Kotas}
++\Author{Krzysztof Synak}
++\MakeTitlePage
+ 
+ \subsection[wprowadzenie]{Wprowadzenie}
+ 

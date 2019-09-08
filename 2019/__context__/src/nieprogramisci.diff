@@ -1,0 +1,20 @@
+--- nieprogramisci.tex
++++ nieprogramisci.tex
+@@ -2,13 +2,10 @@
+ \starttext
+ 
+ 
+-\section[jak-pracować-z-programującymi-nieprogramistami]{Jak pracować z
+-programującymi nieprogramistami}
+-
+-Jacek Bzdak,
+-\useURL[url1][mailto:jacek@logicai.io][][jacek@logicai.io]\from[url1]
+-Magdalena Wójcik,
+-\useURL[url2][mailto:magda@logicai.io][][magda@logicai.io]\from[url2]
++\Title{Jak pracować z programującymi nieprogramistami}
++\Author{Jacek Bzdak}
++\Author{Magdalena Wójcik}
++\MakeTitlePage
+ 
+ \subsection[streszczenie]{Streszczenie}
+ 

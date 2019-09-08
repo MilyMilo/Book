@@ -1,0 +1,16 @@
+--- agile.tex
++++ agile.tex
+@@ -1,10 +1,9 @@
+ \usemodule[pycon-yyyy]
+ \starttext
+ 
+-
+-\section[agile-mindset-agile-code]{Agile mindset, agile code}
+-
+-Piotr Podgórski
++\Title{Agile mindset, agile code}
++\Author{Piotr Podgórski}
++\MakeTitlePage
+ 
+ \subsection[abstract]{Abstract}
+ 

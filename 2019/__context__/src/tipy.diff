@@ -1,0 +1,16 @@
+--- tipy.tex
++++ tipy.tex
+@@ -1,10 +1,9 @@
+ \usemodule[pycon-yyyy]
+ \starttext
+ 
+-
+-\section[tipy-o-typowaniu]{Tipy o typowaniu}
+-
+-Grzegorz Kocjan
++\Title{Tipy o typowaniu}
++\Author{Grzegorz Kocjan}
++\MakeTitlePage
+ 
+ \subsection[wprowadzenie]{Wprowadzenie}
+ 

@@ -1,0 +1,18 @@
+--- pandas.tex
++++ pandas.tex
+@@ -1,12 +1,9 @@
+ \usemodule[pycon-yyyy]
+ \starttext
+ 
+-
+-\section[how-pythons-and-pandas-can-solve-real-life-problems-when-working-with-big-data]{How
+-Pythons and Pandas can solve real-life problems when working with Big
+-Data}
+-
+-Łukasz Szweda
++\Title{How Pythons and Pandas can solve real-life problems when working with Big Data}
++\Author{Łukasz Szweda}
++\MakeTitlePage
+ 
+ \subsection[introduction]{Introduction}
+ 

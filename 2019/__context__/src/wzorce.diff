@@ -1,0 +1,16 @@
+--- wzorce.tex
++++ wzorce.tex
+@@ -1,10 +1,9 @@
+ \usemodule[pycon-yyyy]
+ \starttext
+ 
+-
+-\section[wzorce-projektowe-w-pythonie]{Wzorce projektowe w Pythonie}
+-
+-Michał Mokrogulski
++\Title{Wzorce projektowe w Pythonie}
++\Author{Michał Mokrogulski}
++\MakeTitlePage
+ 
+ \subsection[wprowadzenie]{Wprowadzenie}
+ 

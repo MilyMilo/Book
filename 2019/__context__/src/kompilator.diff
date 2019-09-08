@@ -1,0 +1,17 @@
+--- kompilator.tex
++++ kompilator.tex
+@@ -1,11 +1,9 @@
+ \usemodule[pycon-yyyy]
+ \starttext
+ 
+-
+-\section[kompilator-w-pythonie]{Kompilator w Pythonie}
+-
+-Krzysztof Jura,
+-\useURL[url1][mailto:kisioj@gmail.com][][kisioj@gmail.com]\from[url1]
++\Title{Kompilator w Pythonie}
++\Author{Krzysztof Jura}
++\MakeTitlePage
+ 
+ \subsection[wstęp]{Wstęp}
+ 
