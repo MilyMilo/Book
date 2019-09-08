@@ -1,0 +1,317 @@
+\usemodule[pycon-yyyy]
+\starttext
+
+
+\Title{Jak pracować z programującymi nieprogramistami}
+\Author{Jacek Bzdak}
+\Author{Magdalena Wójcik}
+\MakeTitlePage
+
+\subsection[streszczenie]{Streszczenie}
+
+W prezentacji chcemy przedstawić trudności jakie pojawiają się w pracy
+na linii programiści - programujący nieprogramiści, które wynikają z
+naszego doświadczenia. Dotyczą one zarówno kwestii jakości kodu,
+wykorzystywanych narzędzi czy środowiska pracy. Dla każdego z problemów
+zaprezentujemy rozwiązania, które stosujemy w naszej codziennej pracy.
+Prezentacja będzie opierała się na dwóch punktach widzenia - programisty
+i Data Scientistki. Poniższy artykuł zawiera spis technicznym zagadnień.
+W artykule poruszamy głównie kwestie związane z zespołem Data Science,
+ale w prezentacji powiemy też współpracy z innymi grupami, np.
+elektronikami.
+
+\subsection[wstęp]{Wstęp}
+
+\section[disclaimer]{Disclaimer}
+
+\startitemize[n,packed][stopper=.]
+\item
+  Podane niżej pomysły sprawdzają się w \quotation{młodym} zespole w
+  consultingowym startupie, który realizuje dużo małych projektów
+  \footnote{\useURL[url3][https://logicai.io/]\from[url3]},
+\item
+  Relatywnie rzadko robimy projekty Big Data, większość z nich da się
+  zrobić na jednej maszynie (nawet jeśli jest to \quotation{duża}
+  instancja),
+\item
+  Jeśli masz terabajty danych i od lat tworzysz produkt możliwe, że
+  rozwiązania te mogą nie być optymalne.
+\stopitemize
+
+\section[jak-wygląda-praca-data-scientista]{Jak wygląda praca Data
+Scientista?}
+
+Projekty Data Science (DS) są podobne do projektów stricte
+programistycznych, ale mają też swoje specyficzne elementy, które
+wymienimy poniżej.
+
+Zwykle praca przebiega następująco:
+
+\startitemize[n,packed][stopper=.]
+\item
+  Rozmowa z klientem, zebranie wymagań i potrzeb, określenie jaki cel
+  biznesowy ma osiągnąć model Machine Learningowy (ML);
+\item
+  Analiza i czyszczenie danych, co może zająć nawet 90\letterpercent{}
+  czasu całego projektu, jeśli dane zawierają dużo błędów i szumu; W
+  ramach tego kroku powstają tzw. Transformery czyli skrypty
+  przygotowujące dane do postaci odpowiedniej dla modelu ML;
+\item
+  Trenowanie modelu ML;
+\item
+  Przekazanie wyników do klienta. Wynik może być zarówno gotowym
+  produktem, mikroserwisem Data Science, jak i raportem/prezentacją.
+\stopitemize
+
+\subsection[praca-z-data-scientistamikami]{Praca z Data
+Scientistami\letterbackslash{}kami}
+
+\section[wspólne-ustalenie-api-które-jest-zrozumiałe-dla-obu-stron]{Wspólne
+ustalenie API, które jest zrozumiałe dla obu stron}
+
+Często da się opracować API między częścią {\em programistyczną} oraz
+częścią {\em Data Sciencową}.
+
+Ważne uwagi:
+
+\startitemize[n,packed][stopper=.]
+\item
+  API musi być zrozumiałe dla wszystkich, w praktyce podlega bardzo
+  dokładnemu przeglądowi kodu, i {\bf wszyscy} muszą być pewni, że jest
+  dobre,
+\item
+  Należy być otwartym na jego refaktoryzację.
+\stopitemize
+
+\subsection[co-może-się-nie-udać]{Co może się nie udać?}
+
+Narzucenie API zrobionego tak, żeby było \quotation{elegancko} i zgodnie
+z obowiązującą modą programistyczną, bez patrzenia na przejrzystość API.
+Dla nieprogramistycznej części zespołu to przepis na ciągłe ignorowanie
+API i świadczenie supportu programistycznego przy nawet prostych
+zmianach.
+
+\section[przeglądy-kodu-jako-okazja-do-ulepszenia-praktyk]{Przeglądy
+kodu jako okazja do ulepszenia praktyk}
+
+Czasem przeglądy kodu są nieprzyjemne, ale w naszej firmie dbamy o to,
+żeby było miło, więc przeglądy kodu {\em nie są} okazją do {\em gate
+keepingu} (czyli nie służą do tego, żeby odrzucać zmiany, które nie
+spełniają standardów). Przeglądy są dobrą okazją do poprawy praktyk
+przyjętych w firmie.
+
+W większości projektów mamy ciągłą integrację i testy, co pozwala
+zarządzać ryzykiem wprowadzenia regresji na produkcję.
+
+Nasza procedura przeglądania kodu:
+
+\startitemize[packed]
+\item
+  Znajdź kilka rzeczy, których poprawa zmieni najwięcej;
+\item
+  Przekonaj osobę zgłaszającą kod do tego, że proponowane poprawki
+  pomogą, albo: daj się przekonać, że nie ma sensu tego robić, bo nie
+  będzie istotnej zmiany;
+\item
+  Potraktujcie poprawę kodu jako wspólną odpowiedzialność.
+\stopitemize
+
+Przeglądamy cały kod trafiający do repozytorium, łącznie z notebookami
+Jupytera i prototypowym kodem. Dbamy, żeby produkcyjny kod Pythona miał
+zdecydowanie wyższą wynikową jakość, niż części prototypowane.
+
+\section[brak-silo-mentality]{Brak \quotation{silo mentality}}
+
+Mentalność silosu \footnote{\useURL[url3][https://zapier.com/blog/organizational-silos/]\from[url3]}
+to sytuacja, w której dwa zespoły nie dzielą się informacjami i
+współpracują tylko na podstawie formalnych procedur.
+
+Sytuacja, w której nad projektem pracuje jeden team zawierający i DS, i
+programistki\letterbackslash{}-ów jest dobra, ponieważ wymusza to naukę
+z obu stron.
+
+\subsection[wdrożenia]{Wdrożenia}
+
+Do wdrożeń używamy dockera \footnote{\useURL[url4][https://www.docker.com/]\from[url4]},
+pozwala to bezpiecznie \quotation{zapakować} wszystkie zależności oraz
+wytrenowany model (kolejne wersje modelu wydawane są jako kolejne wersje
+obrazu).
+
+Taka metoda pozwala też na bardzo łatwe wdrożenie u klienta.
+
+Zależności projektu instalujemy standardowo za pomocą polecenia
+\type{pip}. Generujemy pliki zawierające dokładnie wersje wszystkich
+zależności (również zależności tranzytywnych). Używamy do tego narzędzi
+\type{pip-tools} \footnote{\useURL[url5][\%5Bhttps://github.com/jazzband/pip-tools][][https://github.com/jazzband/pip-tools]\from[url5]}.
+Pip-tools zawiera polecenie \type{pip-compile}, które generuje plik z
+zamrożonymi zależnościami, tak wygenerowany plik można zainstalować za
+pomocą \type{pip install -r}. Dzięki temu podczas instalacji projektu
+nie ma potrzeby używania niestandardowych narzędzi (co upraszcza
+istotnie cały proces).
+
+Do wdrożeń nie używamy Anacondy \footnote{\useURL[url6][https://www.anaconda.com/]\from[url6]}.
+Anaconda to manager pakietów, który instaluje typowe paczki Data
+Science, wraz z ich wszystkimi skompilowanymi zależnościami (np.
+bibliotekami algebraicznymi). Jest czasem wygodny i bardzo lubiany przez
+Data Scientistki\letterbackslash{}-ów, ale nie używamy go we
+wdrożeniach, ponieważ \quotation{przypinanie} zależności jest w nim mało
+praktyczne.
+
+Świetnie działa Continuous Deploymen. Jest on szczególnie istotny w
+teamie w którym nie każdy ma chęć i umiejętności robienia wdrożeń.
+
+\subsection[jupyter-notebook]{Jupyter notebook}
+
+Jupyter \footnote{\useURL[url7][https://jupyter.org/]\from[url7]} jest
+interaktywnym webowym środowiskiem, w którym można pisać kod i od razu
+obserwować jego wyniki. Jeśli go nie znasz, zainstaluj i zacznij używać
+do prototypowania (nie tylko w Data Science!).
+
+Świetnie się w nim pisze prototypowy kod Data Science ponieważ:
+
+\startitemize[packed]
+\item
+  Blisko kodu można umieścić wynik jego działania (wykresy, statystyki
+  itp.);
+\item
+  Niektóre kroki obliczeniowe mogą trwać godzinami (np. trenowanie
+  modelu) a Jupyter cechuje ich wyniki;
+\item
+  Niektóre notebooki liczą godzinami, więc wygodnie jest mieć gotowy
+  zrenderowany raport, który można pokazać innym (wyniki i wykresy są w
+  pliku z notebookiem).
+\stopitemize
+
+Jupytera można użyć też do bardzo wygodnej i efektywnej pracy na
+zdalnych maszynach (patrz: \quotation{Praca na instancjach}).
+
+Dlaczego notebooki są czasem mało fajne:
+
+\startitemize[packed]
+\item
+  Pliki, których używa Jupyter do przechowywania notebooków nie są
+  czytelne dla ludzi. Technicznie są plikami JSON zawierającymi kod
+  każdej komórki i wynikami zrealizowanych obliczeń. Ten format danych
+  nie nadaje się do tworzenia diff/PR;
+\item
+  Nie można ich wdrożyć na produkcję (sprawdzić czy nie Netflix)
+  \footnote{\useURL[url8][https://medium.com/netflix-techblog/notebook-innovation-591ee3221233]\from[url8]};
+\item
+  Wspierają pisanie ad-hocowego throw-away code (patrz:
+  \quotation{Throw-away code});
+\stopitemize
+
+\section[przeglądy-kodu-a-jupyter]{Przeglądy kodu a Jupyter}
+
+\startitemize[packed]
+\item
+  Używamy wtyczki \type{jupytext} \footnote{\useURL[url9][https://github.com/mwouts/jupytext]\from[url9]},
+  która do plików notebooka (\type{*.ipynb}) Dodaje siostrzane pliki
+  \type{*.py} (które potem można otworzyć w dowolnym IDE oraz
+  Jupyterze);
+\item
+  Pliki notatników (\type{*.ipynb}) nie trafiają do repozytorium, chyba
+  że zawierają wartościowe wyniki (tj. pliki \type{*.ipynb} ignorowane i
+  trzeba je ręcznie dodać);
+\item
+  Commitowane notebooki podlegają normalnemu przeglądowi kodu w postaci
+  \type{*.py} (aczkolwiek rozumiemy, że nie wszystkie wymogi jakości
+  mają w nich sens);
+\stopitemize
+
+\subsection[biblioteka-pandas]{Biblioteka Pandas}
+
+Pandas \footnote{\useURL[url10][https://pandas.pydata.org/]\from[url10]}
+jest często używane z Jupyterem, pozwala na eksploracyjne przeglądanie
+danych, wykonywanie przekształceń i agregacji, podobnie jak w SQL.
+
+\section[problemy]{Problemy}
+
+Główną wadą tej biblioteki jest trzymanie wszystkiego w pamięci RAM co,
+po prostu, nie zadziała dla dużych zbiorów danych. Często dobrym
+rozwiązaniem jest wrzucenie skryptu z Pandasem na dużą instancję, bo
+koszt maszyny jest szybko przewyższony przez oszczędności wynikające ze
+zwiększonej efektywności programistki/ty.
+
+Pandas ma też czasem nieintuicyjną charakterystykę wydajnościową -
+rozwiązaniem jest testowanie wydajności każdego Transformera niezależnie
+i przepisywanie kodu będącego wąskim gardłem.
+
+\subsection[testowanie-kodu]{Testowanie kodu}
+
+Automatyczne testowanie kodu jest bardzo przydatnym narzędziem w
+projektach DS.
+
+Warto testować:
+
+\startitemize[packed]
+\item
+  Każdy Transformer danych, ponieważ ew. błędy (np. wycieki danych)
+  najczęściej znajdują się tutaj, a nie w modelu, a błędy wprowadzone
+  podczas obróbki danych są bardzo trudne do znalezienia.
+\item
+  Warto zrobić \quotation{smoke testy} \footnote{\useURL[url11][https://en.wikipedia.org/wiki/Smoke_testing_(software)]\from[url11]}
+  całego procesu przetwarzania danych, czyli: uruchamiamy proces z
+  danymi wejściowymi w dobrym formacie i patrzymy czy wychodzą dane w
+  dobrym formacie.
+\stopitemize
+
+Automatyczne testowanie samych modeli ma bardzo ograniczony sens,
+przestrzeń wyników generowanych przez model jest bardzo duża i nie da
+się przetestować wszystkich warunków brzegowych. Zapewnienie poprawnego
+działania modelu jest odpowiedzialnością osoby, która go przygotowuje.
+
+Poniżej typowe problemy, które można napotkać przy budowaniu modeli,
+które są trudne do automatycznego testowania:
+
+\startitemize[n,packed][stopper=.]
+\item
+  Model może mieć bardzo wysoką dokładność ze względu na wyciek w
+  danych. Na przykład może bardzo dobrze zdiagnozować raka na podstawie
+  tego, że pacjent w historii choroby ma długi pobyt w szpitalu
+  onkologicznym;
+\item
+  Model może działać poprawnie, ale mieć uprzedzenia, np. rasowe, albo
+  do płci.
+\stopitemize
+
+\subsection[praca-na-instancjach]{Praca na instancjach}
+
+Algorytmy DS zużywają dużo pamięci RAM (czasem setki GB), a czasem
+potrzebują kart graficznych. Nie zawsze da się je uruchomić lokalnie, a
+szczególnie z Zadowalającą wydajnością.
+
+\section[problemy-1]{Problemy}
+
+Dużym problemem jest konfiguracja zdalnej instancji, osoby z Data
+Science nie zawsze czują się komfortowo z Linuxem i często konfiguracja,
+która intuicyjnie powinna być szybka, zajmuje np. cały dzień.
+
+Najprawdopodobniej rozwiążemy to poprzez standaryzację szablonu
+projektu, tak by postawienie instancji zawsze wymagało pobrania
+repozytorium, pobrania danych i napisania \type{docker-compose up}.
+
+\section[rozwiązanie-modelowe]{Rozwiązanie modelowe}
+
+Jak najwięcej należy zrobić bez zdalnej maszyny. W praktyce
+90\letterpercent{} problemów da się wychwycić sprawdzając model na małej
+próbce danych. W praktyce cały kod Pythona powstaje lokalnie.
+
+W takim wypadku cały model sprawdzany jest na instancji na pełnych
+danych, czasem mamy automatyczne skrypty, które tworzą instancję,
+pobierają dane i sprawdzają działanie modelu. Czasem po prostu kod jest
+uruchamiany na maszynie, a jakość modelu sprawdzana jest ręcznie za
+pomocą Jupytera.
+
+\subsection[take-away]{Take away}
+
+Zanim zaczniesz proponować rozwiązania nieprogramistkom/nieprogramistom,
+musisz 3 razy dobrze upewnić się co i jak robią. Procesy muszą z jednej
+strony zapewniać stabilną pracę, a z drugiej nie mogą być przeszkodą i
+utrudnieniem.
+
+Nietypowe rozwiązania wprowadzane przez nieprogramistów z reguły mają
+swój dobry powód.
+
+
+\stoptext
