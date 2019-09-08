@@ -34,7 +34,7 @@ files_to_copy = {
         "exploration-exploitation.png",
         "exploration-exploitation2.png",
     ],
-    "kompilator-w-pythonie": [
+    "kompilator": [
         "../../../presentations/kompilator-w-pythonie/",
         "parseTree.png",
     ],
