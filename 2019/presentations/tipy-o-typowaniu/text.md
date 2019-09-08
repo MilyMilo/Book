@@ -104,11 +104,15 @@ Wracając jednak do aliasów, wyobraźmy sobie fixture z pytest, które zwraca n
 Mając kilkanaście testów korzystających z tego fixture stracimy jakąkolwiek widoczność tego co się dzieje.
 
     def test_add_product_increases_order_total_cost(
-        prepare_repositories=Tuple[IOrderRepository, IProductRepository, IClientRepository]
+        prepare_repositories=Tuple[
+            IOrderRepository, IProductRepository, IClientRepository
+        ]
     ) -> None:
         ....
     def test_add_product_increases_order_items_count(
-        prepare_repositories=Tuple[IOrderRepository, IProductRepository, IClientRepository]
+        prepare_repositories=Tuple[
+            IOrderRepository, IProductRepository, IClientRepository
+        ]
     ) -> None:
         ....
 
