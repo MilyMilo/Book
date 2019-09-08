@@ -1,6 +1,7 @@
 # Jak pracować z programującymi nieprogramistami
 
-Jacek Bzdak <jacek@logicai.io>, Magdalena Wójcik <magda@logicai.io>
+Jacek Bzdak, <jacek@logicai.io>
+Magdalena Wójcik, <magda@logicai.io>
 
 ## Streszczenie
 
@@ -13,10 +14,11 @@ widzenia - programisty i Data Scientistki. Poniższy artykuł zawiera spis
 technicznym zagadnień. W artykule poruszamy głównie kwestie związane z zespołem Data Science, ale w prezentacji powiemy też współpracy z innymi grupami, np. elektronikami. 
 
 ## Wstęp
+
 ### Disclaimer
 
 1. Podane niżej pomysły sprawdzają się w "młodym" zespole w consultingowym startupie,
-   który realizuje dużo małych projektów[1],
+   który realizuje dużo małych projektów [^1],
 2. Relatywnie rzadko robimy projekty Big Data, większość z nich da się zrobić
    na jednej maszynie (nawet jeśli jest to “duża” instancja),
 3. Jeśli masz terabajty danych i od lat tworzysz produkt możliwe, że rozwiązania te
@@ -27,7 +29,7 @@ technicznym zagadnień. W artykule poruszamy głównie kwestie związane z zespo
 Projekty Data Science (DS) są podobne do projektów stricte programistycznych,
 ale mają też swoje specyficzne elementy, które wymienimy poniżej.
 
- Zwykle praca przebiega następująco:
+Zwykle praca przebiega następująco:
 
 1. Rozmowa z klientem, zebranie wymagań i potrzeb, określenie jaki cel
    biznesowy ma osiągnąć model Machine Learningowy (ML);
@@ -38,8 +40,10 @@ ale mają też swoje specyficzne elementy, które wymienimy poniżej.
 3. Trenowanie modelu ML;
 4. Przekazanie wyników do klienta. Wynik może być zarówno gotowym produktem, mikroserwisem Data Science, jak i raportem/prezentacją.
 
-# Praca z Data Scientistami/kami
-## Wspólne ustalenie API, które jest zrozumiałe dla obu stron
+## Praca z Data Scientistami\\kami
+
+### Wspólne ustalenie API, które jest zrozumiałe dla obu stron
+
 Często da się opracować API między częścią *programistyczną* oraz częścią
  *Data Sciencową*.
 
@@ -49,13 +53,14 @@ Ważne uwagi:
    przeglądowi kodu, i **wszyscy** muszą być pewni, że jest dobre,
 2. Należy być otwartym na jego refaktoryzację.
 
-### Co może się nie udać?
+#### Co może się nie udać?
+
 Narzucenie API zrobionego tak, żeby było “elegancko” i zgodnie z
 obowiązującą modą programistyczną, bez patrzenia na przejrzystość API. 
 Dla nieprogramistycznej części zespołu to przepis na ciągłe ignorowanie API
 i świadczenie supportu programistycznego przy nawet prostych zmianach.
 
-## Przeglądy kodu jako okazja do ulepszenia praktyk
+### Przeglądy kodu jako okazja do ulepszenia praktyk
 
 Czasem przeglądy kodu są nieprzyjemne, ale w naszej firmie dbamy o to,
 żeby było miło, więc przeglądy kodu *nie są* okazją do *gate keepingu*
@@ -75,17 +80,17 @@ Nasza procedura przeglądania kodu:
 Przeglądamy cały kod trafiający do repozytorium, łącznie z notebookami Jupytera i
 prototypowym kodem. Dbamy, żeby produkcyjny kod Pythona miał zdecydowanie wyższą wynikową jakość, niż części prototypowane.
 
-## Brak “silo mentality”
+### Brak “silo mentality”
 
-Mentalność silosu[2] to sytuacja, w której dwa zespoły nie dzielą się informacjami
+Mentalność silosu [^2] to sytuacja, w której dwa zespoły nie dzielą się informacjami
 i współpracują tylko na podstawie formalnych procedur.
 
 Sytuacja, w której nad projektem pracuje jeden team zawierający i DS,
-i programistki\ów jest dobra, ponieważ wymusza to naukę z obu stron.
+i programistki\\-ów jest dobra, ponieważ wymusza to naukę z obu stron.
 
 ## Wdrożenia
 
-Do wdrożeń używamy dockera[3], pozwala to bezpiecznie “zapakować”
+Do wdrożeń używamy dockera [^3], pozwala to bezpiecznie “zapakować”
 wszystkie zależności oraz wytrenowany model (kolejne wersje modelu wydawane są
 jako kolejne wersje obrazu).
 
@@ -94,27 +99,28 @@ Taka metoda pozwala też na bardzo łatwe wdrożenie u klienta.
 Zależności projektu instalujemy standardowo za pomocą polecenia
 ``pip``. Generujemy pliki zawierające dokładnie wersje wszystkich zależności
 (również zależności tranzytywnych). Używamy do tego narzędzi
-``pip-tools``[4]. Pip-tools zawiera polecenie ``pip-compile``,
+``pip-tools`` [^4]. Pip-tools zawiera polecenie ``pip-compile``,
 które generuje plik z zamrożonymi zależnościami, tak wygenerowany plik można
 zainstalować za pomocą ``pip install -r``. Dzięki temu podczas instalacji
 projektu nie ma potrzeby używania niestandardowych narzędzi (co upraszcza istotnie
 cały proces).
 
-Do wdrożeń nie używamy Anacondy[5]. Anaconda to manager pakietów, który
+Do wdrożeń nie używamy Anacondy [^5]. Anaconda to manager pakietów, który
 instaluje typowe paczki Data Science, wraz z ich wszystkimi skompilowanymi
 zależnościami (np. bibliotekami algebraicznymi). Jest czasem wygodny i bardzo
-lubiany przez Data Scientistki\ów, ale nie używamy go we wdrożeniach, ponieważ
+lubiany przez Data Scientistki\\-ów, ale nie używamy go we wdrożeniach, ponieważ
 “przypinanie” zależności jest w nim mało praktyczne.
 
 Świetnie działa Continuous Deploymen. Jest on szczególnie istotny w teamie w którym nie każdy ma chęć i umiejętności robienia wdrożeń. 
 
 ## Jupyter notebook
 
-Jupyter[6] jest interaktywnym webowym środowiskiem, w którym można pisać
+Jupyter [^6] jest interaktywnym webowym środowiskiem, w którym można pisać
 kod i od razu obserwować jego wyniki. Jeśli go nie znasz, zainstaluj i
 zacznij używać do prototypowania (nie tylko w Data Science!).
 
 Świetnie się w nim pisze prototypowy kod Data Science ponieważ:
+
 * Blisko kodu można umieścić wynik jego działania (wykresy, statystyki itp.);
 * Niektóre kroki obliczeniowe mogą trwać godzinami (np. trenowanie modelu)
   a Jupyter cechuje ich wyniki;
@@ -130,12 +136,12 @@ Dlaczego notebooki są czasem mało fajne:
   dla ludzi. Technicznie są plikami JSON zawierającymi kod każdej komórki
   i wynikami zrealizowanych obliczeń.
   Ten format danych nie nadaje się do tworzenia diff/PR;
-* Nie można ich wdrożyć na produkcję (sprawdzić czy nie Netflix)[7];
+* Nie można ich wdrożyć na produkcję (sprawdzić czy nie Netflix) [^7];
 * Wspierają pisanie ad-hocowego throw-away code (patrz: “Throw-away code”);
 
 ### Przeglądy kodu a Jupyter
 
-* Używamy wtyczki ``jupytext``[8], która do plików notebooka (``*.ipynb``)
+* Używamy wtyczki ``jupytext`` [^8], która do plików notebooka (``*.ipynb``)
   Dodaje siostrzane pliki ``*.py`` (które potem można otworzyć w dowolnym IDE oraz Jupyterze);
 * Pliki notatników (``*.ipynb``) nie trafiają do repozytorium, chyba że zawierają wartościowe
   wyniki (tj. pliki ``*.ipynb`` ignorowane i trzeba je ręcznie dodać);
@@ -143,11 +149,12 @@ Dlaczego notebooki są czasem mało fajne:
   (aczkolwiek rozumiemy, że nie wszystkie wymogi jakości mają w nich sens);
 
 ## Biblioteka Pandas
-Pandas[9] jest często używane z Jupyterem, pozwala na
+Pandas [^9] jest często używane z Jupyterem, pozwala na
 eksploracyjne przeglądanie danych, wykonywanie przekształceń i agregacji,
 podobnie jak w SQL.
 
 ### Problemy
+
 Główną wadą tej biblioteki jest trzymanie wszystkiego w pamięci RAM co,
 po prostu, nie zadziała dla dużych zbiorów danych. Często dobrym rozwiązaniem
 jest wrzucenie skryptu z Pandasem na dużą instancję, bo koszt maszyny jest
@@ -166,7 +173,7 @@ Warto testować:
 * Każdy Transformer danych, ponieważ ew. błędy (np. wycieki danych)
   najczęściej znajdują się tutaj, a nie w modelu, a błędy wprowadzone podczas
   obróbki danych są bardzo trudne do znalezienia.
-* Warto zrobić "smoke testy"[11] całego procesu przetwarzania danych,
+* Warto zrobić "smoke testy" [^10] całego procesu przetwarzania danych,
   czyli: uruchamiamy proces z danymi wejściowymi w dobrym formacie
   i patrzymy czy wychodzą dane w dobrym formacie.
 
@@ -210,7 +217,7 @@ czasem mamy automatyczne skrypty, które tworzą instancję,
 pobierają dane i sprawdzają działanie modelu. Czasem po prostu kod jest
 uruchamiany na maszynie, a jakość modelu sprawdzana jest ręcznie za pomocą Jupytera.
 
-# Take away
+## Take away
 
 Zanim zaczniesz proponować rozwiązania nieprogramistkom/nieprogramistom,
 musisz 3 razy dobrze upewnić się co i jak robią. Procesy muszą z jednej
@@ -218,15 +225,14 @@ strony zapewniać stabilną pracę, a z drugiej nie mogą być przeszkodą i utr
 
 Nietypowe rozwiązania wprowadzane przez nieprogramistów z reguły mają swój dobry powód.
 
-[1]: https://logicai.io/
-[2]: https://zapier.com/blog/organizational-silos/
-[3]: https://www.docker.com/
-[4]: https://github.com/jazzband/pip-tools
-[5]: https://www.anaconda.com/
-[6]: https://jupyter.org/
-[7]: https://medium.com/netflix-techblog/notebook-innovation-591ee3221233
-[8]: https://github.com/mwouts/jupytext
-[9]: https://pandas.pydata.org/
-[10]: http://philipmgoddard.com/modeling/sklearn_pipelines
-[11]: https://en.wikipedia.org/wiki/Smoke_testing_(software)
+[^1]: [https://logicai.io/](https://logicai.io/)
+[^2]: [https://zapier.com/blog/organizational-silos/](https://zapier.com/blog/organizational-silos/)
+[^3]: [https://www.docker.com/](https://www.docker.com/)
+[^4]: [https://github.com/jazzband/pip-tools]([https://github.com/jazzband/pip-tools)
+[^5]: [https://www.anaconda.com/](https://www.anaconda.com/)
+[^6]: [https://jupyter.org/](https://jupyter.org/)
+[^7]: [https://medium.com/netflix-techblog/notebook-innovation-591ee3221233](https://medium.com/netflix-techblog/notebook-innovation-591ee3221233)
+[^8]: [https://github.com/mwouts/jupytext](https://github.com/mwouts/jupytext)
+[^9]: [https://pandas.pydata.org/](https://pandas.pydata.org/)
+[^10]: [https://en.wikipedia.org/wiki/Smoke_testing_(software)](https://en.wikipedia.org/wiki/Smoke_testing_(software))
 

@@ -1,3 +1,7 @@
+# Tipy o typowaniu
+
+Grzegorz Kocjan
+
 ## Wprowadzenie
 
 Świat enterprise to wielkie projekty, niezatapialne systemy bankowe, super wydajne platformy przetwarzające dane, znacznie więcej niż prosty sklep internetowy. Przez wiele lat świat ten był kojarzony tylko z językami silnie typowanymi, stabilność ma w nich kluczowe znaczenie. Teraz Python zyskał nową broń w walce o te super projekty - typy, nie takie “silne” ale potężne.
@@ -11,10 +15,10 @@ Python jest kojarzony z dużą swobodą. Możemy zrobić w nim wszystko, jak tyl
 Jednak tu nie chodzi tu tylko o samą stabilność. Kod, który korzysta z typowania, staje się dużo bardziej czytelny. Oczywiście nie na początku. Gdy po raz pierwszy spojrzałem na pełni typowany kod Pythona byłem przerażony. Nie byłem w stanie przeczytać co ten kod robi, tyle nowych składni, symboli, istna magia. Jednak, jak człowiek już się przyzwyczai, nie będzie powrotu. Kod z dobrym typowaniem staje się dużo przyjemniejszy do pracy. Kluczowe słowo “dobrym”. Przedstawię wam kilka zasad, jak dobrze wykorzystać typ w pythonie.
 
 ## Pierwsze kroki
+
 ### Typowanie funkcji
 
-Zanim jednak przejdziemy do bardziej zaawansowanych tematów, zobaczmy jak wygląda typowanie. W pythonie 3.5 dostaliśmy możliwość dodawania adnotacji typów dla funkcji. 
-    
+Zanim jednak przejdziemy do bardziej zaawansowanych tematów, zobaczmy jak wygląda typowanie. W pythonie 3.5 dostaliśmy możliwość dodawania adnotacji typów dla funkcji.
 
     def greeting(name: str) -> str:
         return "Hello " + name
@@ -26,12 +30,14 @@ Za parametrem pojawił się dwukropek (`:`), za nim definiujemy właśnie typ. W
 Na samych definicjach funkcji świat się nie kończy. Dlatego też w Pythonie 3.6 dostaliśmy możliwość definiowania typów zmiennych. Składnia jest taka sama jak w przypadku argumentów funkcji. Python to przecież piękny i spójny język! 
 
     order_name: str = 'PyConPL!'
+
 ### Typy są leniwcami
 
 Bardzo ważna rzecz, którą trzeba wiedzieć o typach, to że są to leniwe bestie. Same z siebie nie robią kompletnie nic. Dla uproszczenia możemy założyć, że intepreter Pythona zwyczajnie je ignoruje w czasie wykonywania kodu. Oznacza to, że możemy mieć całkowicie błędne typy i nie wpłynie to negatywnie naszą aplikację. To z jednej strony bardzo dobra wiadomość, dla osób, które chcą wdrożyć adnotacje typów w istniejącym projekcie, z drugiej jednak, może wprowadzać pewne zamieszanie ponieważ poniższy kod się wykona:
 
     def some_function() -> int:
         return "Hello!"
+
 ### Mypy
 
 Jeżeli chcemy zweryfikować poprawność adnotacji musimy skorzystać z zewnętrznej biblioteki. Nie martwcie się, jest to oficjalna biblioteka i nie jest dostarczana jednocześnie z Pythonem, tylko ze względu na dynamiczny rozwój. Cały czas jest usprawniania, poprawiane są sporadyczne błędy i działa co raz szybciej. Instalujemy ją jak każdą inną bibliotekę:
@@ -48,6 +54,7 @@ Dopiero uruchomienie `mypy` sprawdza poprawność naszych typów. W odpowiedzi d
 Ponieważ typy są leniwe, a jedyną metodą na ich weryfikacje jest uruchamianie mypy, dobrze jest włączyć to sprawdzanie w proces naszych testów. Możemy skonfigurować zarówno tox, jak i pytest do sprawdzania spójności typów za pomocą mypy.
 
 ## Jak żyć w zgodzie z typami
+
 ### Zbyt ogólne typy
 
 Na początku korzystania z typowania w pythonie zaczęliśmy dodawać adnotacje do istniejącego kodu, bez wprowadzania większych modyfikacji. To oczywiście dobre podejście, nie chcemy robić dwóch rewolucji w kodzie w jednej chwili. Jednak popełniliśmy z tego powodu jeden znaczący błąd. W wielu przypadkach nasze typy wyglądały tak:
@@ -68,9 +75,9 @@ Możemy poprawić czytelność tego kodu prostym zabiegiem. Wykorzystując alias
 Teraz na pierwszy rzut oka wiemy czego możemy się spodziewać po naszym słowniku. Powinien zawierać klucze i wartości związane z zamówieniem. “Powinien”, ale wcale nie musi. Alias zwiększył czytelność naszego kodu, ale nadal nie mamy kontroli nad tym co dokładnie znajduje się w naszym słowniku.
 Zmierzamy powoli do pierwszego wniosku. Słownik nie jest najlepszym typem z jakiego możemy skorzystać. Jeżeli chcemy znacząco zwiększyć bezpieczeństwo naszej aplikacji powinniśmy skorzystać z konstrukcji, które mają sztywno określone pola, np klasy. Jednak tworzenie dużej ilości klas, tylko do przechowywania danych, w Pythonie nie jest należy do najprzyjemniejszych. Na szczęście mamy kilka ciekawych możliwości:
 
-1. dataclasses - dostępne w standardowej bibliotece od pythona 3.7
-2. attrs - zewnętrzna biblioteka, robi to co dataclasses, plus znacznie więcej
-3. pydantic - kolejna biblioteka, jej zaletą jest wsparcie dla dataclasses
+1. `dataclasses` - dostępne w standardowej bibliotece od pythona 3.7
+2. `attrs` - zewnętrzna biblioteka, robi to co dataclasses, plus znacznie więcej
+3. `pydantic` - kolejna biblioteka, jej zaletą jest wsparcie dla dataclasses
 
 Zobaczmy jak będzie wyglądać nasz prosty kod z wykorzystaniem dataclasses:
 
@@ -140,11 +147,9 @@ Przy sześciu linijkach od razu widać, że ten kod jest straszny. Jednak, po 10
 Tak! Nie tylko poprawiają czytelność, ale także znacząco poprawiają stabilność naszego kodu. Jeśli będziemy rozwijać nasz projekt dłużej niż przez miesiąc, to warto.
 
 ## Źródła
-[Mypy](https://mypy.readthedocs.io/)
 
-[Pydantic](https://pydantic-docs.helpmanual.io/)
-
-[Attrs](https://www.attrs.org/)
-
-[migawka.it](http://migawka.it/)
+1. Mypy, <https://mypy.readthedocs.io/>
+2. Pydantic, <https://pydantic-docs.helpmanual.io/>
+3. Attrs, <https://www.attrs.org/>
+4. migawka.it, <http://migawka.it/>
 

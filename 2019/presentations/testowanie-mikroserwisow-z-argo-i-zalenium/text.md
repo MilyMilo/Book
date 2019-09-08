@@ -1,6 +1,6 @@
 # Testowanie mikroserwisów z Argo i Zalenium
 
-### Maciej Brzozowski
+Maciej Brzozowski
 
 ## Wprowadzenie
 
@@ -86,28 +86,16 @@ testowych i raportowanie defektów.
 
 ## Źródła
 
-[Robot Framework](https://robotframework.org)
-
-[Argo](https://argoproj.github.io)
-
-[Selenium](https://www.seleniumhq.org)
-
-[Zalenium](https://opensource.zalando.com/zalenium)
-
-[Docker](https://www.docker.com)
-
-[Docker Compose](https://docs.docker.com/compose)
-
-[Openshift](https://www.openshift.com)
-
-[Kubernetes](https://kubernetes.io)
-
-[Scala](https://www.scala-lang.org)
-
-[Scalatest](http://www.scalatest.org)
-
-[AngularJS](https://angularjs.org)
-
-[Kafka](https://kafka.apache.org)
-
-[Bazel](https://bazel.build)
+1. Robot Framework, <https://robotframework.org>
+2. Argo, <https://argoproj.github.io>
+3. Selenium, <https://www.seleniumhq.org>
+4. Zalenium, <https://opensource.zalando.com/zalenium>
+5. Docker, <https://www.docker.com>
+6. Docker Compose, <https://docs.docker.com/compose>
+7. Openshift, <https://www.openshift.com>
+8. Kubernetes, <https://kubernetes.io>
+9. Scala, <https://www.scala-lang.org>
+10. Scalatest, <http://www.scalatest.org>
+11. AngularJS, <https://angularjs.org>
+12. Kafka, <https://kafka.apache.org>
+13. Bazel, <https://bazel.build>

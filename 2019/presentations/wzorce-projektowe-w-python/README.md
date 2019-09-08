@@ -1,3 +1,3 @@
-# Wzorce projektowe w Python
+# Wzorce projektowe w Pythonie
 
 ### Michał Mokrogulski

@@ -1,3 +1,7 @@
+# Agile mindset, agile code
+
+Piotr Podgórski
+
 ## Abstract
 
 Introducing agility into an organization is not an easy task, not matter if you do it in a stale organization or a completely fresh one.
@@ -165,8 +169,9 @@ All of these things make writing individual lines of code *harder*, so writing s
 The bottleneck is understanding what to type and what’s been typed. That’s exactly why you should be wary of everything that saves you a few minutes, because more often than not, it’s also creating a time bomb. On the other hand, there’s a good change that processes and tools which require a lot of work/learning at first, will benefit you in the long run.
 
 ## Sources
+
 1. Martin, Robert C. (2017). Clean Architecture: A Craftsman's Guide to Software Structure and Design
 2. Jez Humble, Barry O'Reilly, Joanne Molesky (2014). Lean Enterprise: How High Performance Organizations Innovate at Scale
-3. Kevlin Henney, https://www.youtube.com/playlist?list=PL6wxfKvkNqRugfIiKKgRXa_0wKIQW_ZEH
+3. Kevlin Henney, [https://www.youtube.com/playlist?list=PL6wxfKvkNqRugfIiKKgRXa_0wKIQW_ZEH](https://www.youtube.com/playlist?list=PL6wxfKvkNqRugfIiKKgRXa_0wKIQW_ZEH)
 4. Greg Young - The art of destroying software, https://vimeo.com/108441214
 

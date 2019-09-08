@@ -23,31 +23,21 @@ re.VERBOSE
 )
 
 files_to_copy = {
-    'cyber': [
-        '../../../presentations/with_python_security/',
-        '000_notpetya.png',
-        '001_attacks_per_day.png',
-        '002_batman.png',
-        ],
-    'real': [
-        '../../../presentations/django_in_the_real_world/',
-        'diagram.png',
-        ],
-    'zodb': [
-        '../../../presentations/zodb_ecosystem/',
-        'ZODBTitleGraphics.png',
-        ],
-    'micro': [
-        '../../../workshops/micropython/',
-        'ryc1.png',
-        'ryc2.png',
-        'ryc3.png',
-        'ryc4.png',
-        ],
-    'networkx': [
-        '../../../workshops/Network_Analysis_using_Python/',
-        'network.png',
-        ],
+    "deep_learning": [
+        "../../../presentations/a-gentle-introduction-to-deep-reinforcement-learning/",
+        "rl_setup.png",
+        "rl_setup2.png",
+        "pong.png",
+        "formula1.png",
+        "formula2.png",
+        "formula3.png",
+        "exploration-exploitation.png",
+        "exploration-exploitation2.png",
+    ],
+    "kompilator-w-pythonie": [
+        "../../../presentations/kompilator-w-pythonie/",
+        "parseTree.png",
+    ],
 }
 
 def apply_patch(diffsrc, gm_dir, test_mode=0):

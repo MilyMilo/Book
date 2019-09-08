@@ -1,26 +1,31 @@
 # Kompilator w Pythonie
-Krzysztof Jura <<kisioj@gmail.com>>
+
+Krzysztof Jura, <kisioj@gmail.com>
 
 ## Wstęp
+
 Zastanawiałeś się kiedyś jak działają kompilatory? A może myślałeś o tym, aby napisać swój własny kompilator, ale nie wiedziałeś od czego zacząć? W tym artykule przybliżę Ci temat kompilatorów, ich budowy oraz pokażę w jaki sposób można napisać je w Pythonie wykorzystując narzędzie ANTLR4.
 
 ## Kompilator
-Na początku należy wyjaśnić czym w ogóle jest kompilator. Powołując się na polską Wikipedię, **kompilator** to *program służący do automatycznego tłumaczenia kodu napisanego w jednym języku (języku źródłowym) na równoważny kod w innym języku (języku wynikowym).*[1] 
 
-Językiem wynikowym może być np.
-kod asemblera lub kod maszynowy (dla języków **\***: C, C++), kod bajtowy (dla języków: Python, Java, C#), kod pośredni (np. C, LLVM IR) kompilowany do kodu maszynowego (dla języków: wczesny C++, Rust), a nawet kod wysokiego poziomu, będący na podobnym poziomie abstrakcji co kod źródłowy (np. kompilacja TypeScript -> JavaScript). W tym ostatnim przypadku zamiast używać terminów kompilator/kompilacja często używa się słów transpilator/transpilacja.
+Na początku należy wyjaśnić czym w ogóle jest kompilator. Powołując się na polską Wikipedię, **kompilator** to *program służący do automatycznego tłumaczenia kodu napisanego w jednym języku (języku źródłowym) na równoważny kod w innym języku (języku wynikowym) [^1].
 
-**\*** w tym jak i innych nawiasach zaczynających się od "***dla języków***" nie chodzi o języki, lecz o ich najpopularniejsze implementacje.
+[^1]: Wikipedia, "Kompilator", [https://pl.wikipedia.org/wiki/Kompilator](https://pl.wikipedia.org/wiki/Kompilator). 
+
+Językiem wynikowym może być np. kod asemblera lub kod maszynowy (dla języków [^2]: C, C++), kod bajtowy (dla języków: Python, Java, C#), kod pośredni (np. C, LLVM IR) kompilowany do kodu maszynowego (dla języków: wczesny C++, Rust), a nawet kod wysokiego poziomu, będący na podobnym poziomie abstrakcji co kod źródłowy (np. kompilacja TypeScript -> JavaScript). W tym ostatnim przypadku zamiast używać terminów kompilator/kompilacja często używa się słów transpilator/transpilacja.
+
+[^2]: W tym jak i innych nawiasach zaczynających się od "***dla języków***" nie chodzi o języki, lecz o ich najpopularniejsze implementacje.
 
 Kompilator wykonuje proces kompilacji składający się z kilku kroków. 
-W zależności od kompilatora liczba kroków jak i same kroki mogą się diametralnie różnić. W teorii kompilatorów wyróżnia się kilka podstawowych kroków kompilacji **\***:
+W zależności od kompilatora liczba kroków jak i same kroki mogą się diametralnie różnić. W teorii kompilatorów wyróżnia się kilka podstawowych kroków kompilacji [^3]:
+
 1. Analiza leksykalna (tokenizacja)
 2. Analiza składniowa/syntaktyczna (parsowanie)
 3. Analiza semantyczna
 4. Wygenerowanie formy pośredniej
 5. Wygenerowanie kodu wynikowego
 
-**\*** Liczba kroków kompilacji, jak i sam ich podział może różnić się w zależności od źródła. W niektórych kompilatorach przed fazą analizy leksykalnej można spotkać krok "*przetwarzania wstępnego*" (ang. preprocessing), a fazy optymalizacji mogą występować nawet kilkukrotnie, między różnymi krokami. Krok generowania formy pośredniej jest w zasadzie możliwy do ominięcia - można razu wygenerować kod wynikowy. W przypadku kompilatorów generujących kod bajtowy czasami uznaje się, że kod wynikowy jest tożsamy z formą pośrednią, a więc kroki 4 i 5 są jednym i tym samym krokiem.
+[^3]: Liczba kroków kompilacji, jak i sam ich podział może różnić się w zależności od źródła. W niektórych kompilatorach przed fazą analizy leksykalnej można spotkać krok "*przetwarzania wstępnego*" (ang. preprocessing), a fazy optymalizacji mogą występować nawet kilkukrotnie, między różnymi krokami. Krok generowania formy pośredniej jest w zasadzie możliwy do ominięcia - można razu wygenerować kod wynikowy. W przypadku kompilatorów generujących kod bajtowy czasami uznaje się, że kod wynikowy jest tożsamy z formą pośrednią, a więc kroki 4 i 5 są jednym i tym samym krokiem.
 
 W dalszej części artykułu zrobimy kompilator prostego, wymyślonego języka. Nasz język nazwiemy **Conpy** (anagram słowa PyCon). Język będzie naprawdę minimalistyczny i wspierający tylko konstrukcje językowe występujące w tym przykładzie:
 
@@ -58,7 +63,7 @@ Wynikowy strumień tokenów można następnie przekazać do analizy składniowej
 ## Analiza składniowa / syntaktyczna
 Jest to etap wykonywany przez część kompilatora zwaną *parserem* lub *analizatorem składniowym*. Parser, według ściśle określonych reguł, z otrzymanego strumienia tokenów generuje drzewo wyprowadzenia (ang. Parse Tree/Concrete Syntax Tree). Drzewo to odzwierciedla strukturę naszego kodu; liśćmi w tym drzewie są tokeny dostarczone przez Lekser, a gałęziami zasady składniowe, o których jeszcze sobie powiemy. W tym etapie wykrywane są błędy składniowe (ang. syntax errors). Przejdźmy teraz do przykładu działania parsera; chcielibyśmy aby nasz kompilator z wyżej umieszczonego strumienia tokenów wygenerował następujące drzewo wyprowadzenia:
 
-![drzewo wyprowadzenia](parseTree.png)
+![Drzewo wyprowadzenia.](parseTree.png)
 
 Na powyższym drzewie wyprowadzenia dobrze widać strukturę naszego programu; widać, które tokeny składają się na definicję funkcji (*funDef*), wywołanie funkcji (*funcCall*) oraz na operacje matematyczne dodawania i mnożenia. Co więcej, z tego drzewa można odczytać, że została zachowana poprawna kolejność wykonywania działań, czyli mnożenie ma w naszym języku pierwszeństwo przed dodawaniem.
 
@@ -68,17 +73,17 @@ Należy dodać, że wynikiem analizy składniowej bywa także dość często nie
 
 ## Gramatyka języka
 Na szczęście dla nas, ANTLR4 pozwala wygenerować kod Leksera i Parsera, czyli części odpowiedzialnych za dwa pierwsze, wymienione wyżej kroki kompilacji. Jednak najpierw musimy stworzyć plik z gramatyką naszego języka, a dopiero z tego pliku ANTLR4 wygeneruje nam gotowy kod Pythonowy. Plik z gramatyką naszego języka w zasadzie będzie zawierał 2 niżej wymienione gramatyki:
- - gramatyka leksykalna (zasady leksykalne czyli definicje tokenów), która jest swego rodzaju słownikiem naszego języka, ponieważ są w niej zapisane wszystkie słowa, których możemy w języku użyć
- 
-  - gramatyka składniowa (zasady składniowe), która definiuje składnię naszego języka, w niej opisana jest każda dozwolona w naszym języku konstrukcja, oraz np. to czy bloki kodu mają być wyznaczone wcięciami czy klamerkami, czy w naszym języku będą istnieć klasy, metody, funkcje, etc.
+
+* gramatyka leksykalna (zasady leksykalne czyli definicje tokenów), która jest swego rodzaju słownikiem naszego języka, ponieważ są w niej zapisane wszystkie słowa, których możemy w języku użyć
+* gramatyka składniowa (zasady składniowe), która definiuje składnię naszego języka, w niej opisana jest każda dozwolona w naszym języku konstrukcja, oraz np. to czy bloki kodu mają być wyznaczone wcięciami czy klamerkami, czy w naszym języku będą istnieć klasy, metody, funkcje, etc.
   
-  Wróćmy do naszego pliku z gramatyką; powinien on nosić nazwę  "*nazwa_naszego_języka.g4*", a pierwsza linia musi wyglądać w następujący sposób: "*grammar nazwa_naszego_języka;*". W kolejnych liniach pliku znajdują się zasady gramatyki w formie:
+Wróćmy do naszego pliku z gramatyką; powinien on nosić nazwę `nazwa_naszego_języka.g4`, a pierwsza linia musi wyglądać w następujący sposób: `grammar nazwa_naszego_języka;`. W kolejnych liniach pliku znajdują się zasady gramatyki w formie:
 
     nazwa_zasady: opis_zasady;
 
 Zasady, których nazwy zaczynają się wielką literą są definicjami tokenów, zaś pozostałe to zasady składniowe. Trzymając się dobrych praktyk, zasady leksykalne nie powinny mieszać się z zasadami składniowymi; natomiast mogą one znajdować się zarówno nad jak i pod nimi. Jeżeli chodzi o opis zasady to może on się składać z wielu linii i zawierać znane z wyrażeń regularnych konstrukcje takie jak grupowanie *( grupa )*, alternatywa *|*, kwantyfikatory wielkościowe *\**, *+*, *?* etc.  Co istotne, kolejność zasad leksykalnych (w przeciwieństwie do składniowych) ma duże znaczenie, co postaram się poniżej wyjaśnić. Zobacz teraz jak będzie wyglądał plik z gramatyką naszego wymyślonego języka:
 
-**Conpy.g4**
+Plik **Conpy.g4**:
 
     grammar Conpy;
     
@@ -114,21 +119,23 @@ Można jeszcze zauważyć, że liczba zasad leksykalnych wydaje się zbyt mała.
 Zasady gramatyki składniowej zaczynają się małą literą, a w ich opisie możemy odwoływać się do zasad leksykalnych i składniowych oraz stosować konstrukcje znane z wyrażeń regularnych. Do zasad leksykalnych / tokenów można odwoływać się na dwa sposoby: przez nazwę albo przez opis. Odwoływanie się przez nazwę to po prostu wszelkie wystąpienia słów typu `EOF` (ang. end of file), `FUNC`, `IF`, `ELSE`, etc., natomiast odwoływanie się przez treść to np. wystąpienia: `'*'` `'+'`, `'{'`, `'}'`, `'('`, `')'`, `';'` - w tym przypadku tokeny nie muszą być jawnie zdefiniowane, gdyż zostaną one i tak automatycznie, niejawnie zdefiniowane. Jakie zalety ma takie podejście? Kwestia gustu, można by wszystkie możliwe tokeny zdefiniować jawnie i odwoływać się do nich przez nazwę (np. `OPEN_BRACE` zamiast `'{'`) jednak według mnie gramatyka składniowa jest czytelniejsza gdy do krótkich tokenów (jak np. operatory) odwołujemy się przez treść. 
 
 No dobra, przejdźmy teraz do omówienia zasad leksykalnych naszej gramatyki, zasada po zasadzie.
- - `main` ma reprezentować kod źródłowy pojedynczego pliku, mówi o tym, że w pliku może wystąpić zero lub więcej (kwantyfikator `*`) definicji funkcji `funcDef` oraz wywołań funkcji `funcCall`, a wszystko to zakończone znakiem `EOF` (znak końca pliku). 
- - `funcDef` czyli definicja funkcji, składa się ze słowa kluczowego *func*, nazwy funkcji `funcNameDef`, nawiasu otwierającego, opcjonalnego (kwantyfikator `?`) parametru `paramDef`, nawiasu zamykającego oraz bloku kodu `block`. 
- - `block` reprezentujący blok kodu, składa się z klamerki otwierającej, następnie z zera lub więcej instrukcji `ifStmt` / `funcCall` oraz klamerki zamykającej.
- - `ifStmt` to instrukcja warunkowa if, składa się ze słowa *if*, nawiasu otwierającego, wyrażenia warunkowego `expr`, nawiasu zamykającego, bloku kodu `block`, oraz na końcu może wystąpić opcjonalnie słowo *else* i kolejny blok kodu `block`.
- - `funcCall` czyli wywołanie funkcji, składa się z nazwy funkcji `funcNameRef`, nawiasu otwierającego, argumentu w formie wyrażenia `expr`, nawiasu zamykającego oraz średnika.
- - `expr` czyli wyrażenie, może być iloczynem dwóch wyrażeń `expr '*' expr`, sumą dwóch wyrażeń `expr '+' expr` lub wartością `value`.
- - `value` to nazwa będąca odwołaniem do parametru funkcji `paramRef` lub liczbą całkowitą.
- - `paramDef`, `paramRef`, `funcNameDef`, `funcNameRef` oznaczają kolejno: parametr, odwołanie się do parametru, nazwę funkcji, odwołanie się do nazwy funkcji. Zasady te są nie są wymagane, można by je usunąć, a każdą z nich zastąpić odwołaniem do tokena `NAME`, natomiast mimo wszystko są przydatne, bo dzięki nim łatwiej nam będzie operować na wygenerowanym przez parser drzewie.
+
+* `main` ma reprezentować kod źródłowy pojedynczego pliku, mówi o tym, że w pliku może wystąpić zero lub więcej (kwantyfikator `*`) definicji funkcji `funcDef` oraz wywołań funkcji `funcCall`, a wszystko to zakończone znakiem `EOF` (znak końca pliku). 
+* `funcDef` czyli definicja funkcji, składa się ze słowa kluczowego *func*, nazwy funkcji `funcNameDef`, nawiasu otwierającego, opcjonalnego (kwantyfikator `?`) parametru `paramDef`, nawiasu zamykającego oraz bloku kodu `block`. 
+* `block` reprezentujący blok kodu, składa się z klamerki otwierającej, następnie z zera lub więcej instrukcji `ifStmt` / `funcCall` oraz klamerki zamykającej.
+* `ifStmt` to instrukcja warunkowa if, składa się ze słowa *if*, nawiasu otwierającego, wyrażenia warunkowego `expr`, nawiasu zamykającego, bloku kodu `block`, oraz na końcu może wystąpić opcjonalnie słowo *else* i kolejny blok kodu `block`.
+* `funcCall` czyli wywołanie funkcji, składa się z nazwy funkcji `funcNameRef`, nawiasu otwierającego, argumentu w formie wyrażenia `expr`, nawiasu zamykającego oraz średnika.
+* `expr` czyli wyrażenie, może być iloczynem dwóch wyrażeń `expr '*' expr`, sumą dwóch wyrażeń `expr '+' expr` lub wartością `value`.
+* `value` to nazwa będąca odwołaniem do parametru funkcji `paramRef` lub liczbą całkowitą.
+* `paramDef`, `paramRef`, `funcNameDef`, `funcNameRef` oznaczają kolejno: parametr, odwołanie się do parametru, nazwę funkcji, odwołanie się do nazwy funkcji. Zasady te są nie są wymagane, można by je usunąć, a każdą z nich zastąpić odwołaniem do tokena `NAME`, natomiast mimo wszystko są przydatne, bo dzięki nim łatwiej nam będzie operować na wygenerowanym przez parser drzewie.
 
 ## Zaczynamy pisać w Pythonie!
+
 Jak już mamy napisaną gramatykę to teraz wystarczy skorzystać z ANTLR4, aby wygenerować Lexer, Parser oraz dodatkowe klasy ułatwiające nam napisać kod wykonujący kolejne kroki kompilacji.
 
     antlr4 -Dlanguage=Python3 -visitor Conpy.g4
  
- Wykonujemy komendę `antlr4` wskazując, że językiem wynikowym ma być `Python3`, dodatkowo dodajemy flagę `-visitor` aby wygenerować klasę Visitora, a na koniec podajemy ścieżkę do pliku z gramatyką. Po wykonanej komendzie w katalogu roboczym powinno pojawić się kilka plików, z których istotne są w zasadzie tylko te z rozszerzeniem `.py`:
+Wykonujemy komendę `antlr4` wskazując, że językiem wynikowym ma być `Python3`, dodatkowo dodajemy flagę `-visitor` aby wygenerować klasę Visitora, a na koniec podajemy ścieżkę do pliku z gramatyką. Po wykonanej komendzie w katalogu roboczym powinno pojawić się kilka plików, z których istotne są w zasadzie tylko te z rozszerzeniem `.py`:
  
     ConpyLexer.py ConpyParser.py ConpyListener.py ConpyVisitor.py
  
@@ -187,18 +194,20 @@ Domyślnie, każda z wygenerowanych dla zasad składniowych metod (`visitNazwaZa
 Na początku importujemy wszystkie wymagane w tej i późniejszej chwili pakiety i moduły. Następnie tworzymy dwa krótsze aliasy długich nazw ze względu na to, że linie w których by one wystąpiły mogłyby przekroczyć dopuszczalną szerokość (mniej niż 70 znaków na linie) tego artykułu. Klasa `SyntaxErrorListener` to klasa dzięki której będziemy mogli zliczyć błędy składniowe znalezione przez parser, a następnie zakończyć program w przypadku ich wystąpienia. Przejdźmy teraz do funkcji `main` czyli głównej funkcji naszego programu. Na początku zakładam, że do programu są dostarczone dwie nazwy: pliku wejściowego z kodem w języku *Conpy* oraz pliku wyjściowego z kodem wynikowym. Na początku tworzymy Lekser do którego na wejściu przekazujemy zawartość pliku wejściowego. Następnie tworzymy strumień tokenów, który przekazujemy na wejściu do parsera. Następnie tworzymy nasz `SyntaxErrorListener` i podpinamy do parsera. Parser proces analizy składniowej / parsowania rozpoczyna dopiero w momencie wywołania metody `main` (`main` to po prostu nazwa zasady z gramatyki składniowej, równie dobrze moglibyśmy wywołać metodę `funcDef`), a wynikiem jest `parse_tree` czyli drzewo wyprowadzenia. W trakcie parsowania, na standardowy strumień błędów (stderr) zostają automatycznie wypisane błędy składniowe. Na koniec sprawdzamy czy wystąpiły jakieś błędy składniowe, a jeżeli tak to wypisujemy ile ich było i kończymy program. Kolejny kod do naszego programu będziemy dodawać w zasadzie w dwóch miejscach: nad funkcją `main` oraz na końcu funkcji `main`, ale to już w kolejnym rozdziale...
 
 ## Analiza semantyczna
+
 Jest to etap wykonywany przez część kompilatora zwaną *analizatorem semantycznym*. Głównym zadaniem tego etapu jest znajdowanie błędów semantycznych, inaczej znaczeniowych. Są to takie błędy, o których nie możemy stwierdzić, czy są błędami czy nie (bo składnia kodu jest poprawna) bez znajomości szerszego kontekstu. Przykłady błędów semantycznych:
- - przypisanie wartości do niezdefiniowanej zmiennej
- - dwukrotne zadeklarowanie tej samej nazwy w obrębie jednego bloku
- - niezgodność typów obiektów biorących udział w operacji matematycznej (np. dodawanie inta do stringa)
- - odwoływanie się do nieistniejącej zmiennej / atrybutu
- - odwoływanie się do indeksu spoza tablicy
+
+* przypisanie wartości do niezdefiniowanej zmiennej
+* dwukrotne zadeklarowanie tej samej nazwy w obrębie jednego bloku
+* niezgodność typów obiektów biorących udział w operacji matematycznej (np. dodawanie inta do stringa)
+* odwoływanie się do nieistniejącej zmiennej / atrybutu
+* odwoływanie się do indeksu spoza tablicy
  
- Takie błędy są zwykle wyłapywane przez kompilator właśnie podczas analizy semantycznej. Python (CPython) jest tutaj swego rodzaju wyjątkiem, gdyż ze względu na swoją dynamiczną naturę, bardzo trudne bądź też niemożliwe byłoby wykrywanie tego typu błędów podczas kompilacji do kodu bajtowego (py -> pyc). W przypadku Pythona można jednak korzystać z adnotacji typów oraz narzędzi do statycznej analizy kodu takich jak *mypy*, dzięki czemu część błędów uda się wyłapać przed uruchomieniem programu. 
+Takie błędy są zwykle wyłapywane przez kompilator właśnie podczas analizy semantycznej. Python (CPython) jest tutaj swego rodzaju wyjątkiem, gdyż ze względu na swoją dynamiczną naturę, bardzo trudne bądź też niemożliwe byłoby wykrywanie tego typu błędów podczas kompilacji do kodu bajtowego (py -> pyc). W przypadku Pythona można jednak korzystać z adnotacji typów oraz narzędzi do statycznej analizy kodu takich jak *mypy*, dzięki czemu część błędów uda się wyłapać przed uruchomieniem programu. 
  
- Należy dodać, że podczas analizy semantycznej dane wyciągane z drzewa często zapisywane są w różnych bardziej przyjemnych formach, z których łatwiej można później wygenerować formę pośrednią lub kod wynikowy.
+Należy dodać, że podczas analizy semantycznej dane wyciągane z drzewa często zapisywane są w różnych bardziej przyjemnych formach, z których łatwiej można później wygenerować formę pośrednią lub kod wynikowy.
  
- Co więcej, Analiza semantyczna również może (ale nie musi) się składać z wielu kroków, przykładowe kroki takiej analizy to np. generowanie tablicy symboli, rozwiązywanie zależności (dziedziczenie, złożone typy zmiennych / atrybutów / funkcji), ewaluacja stałych, sprawdzanie zgodności typów, etc. W przypadku naszego kompilatora, ze względu na ograniczoną ilość miejsca przeznaczoną na ten artykuł, zdecydowałem, że będzie to forma bardzo okrojona oraz skondensowana. Nasz analizator składniowy będzie zaimplementowany w postaci Visitora oraz będzie potrafił znaleźć kilka podstawowych błędów semantycznych takich jak: liczba argumentów nie zgadzająca się z liczbą parametrów, podwójna definicja funkcji o takiej samej nazwie czy odwoływanie się do niezdefiniowanej wartości. Kod naszego analizatora składniowego umieszczam poniżej:
+Co więcej, Analiza semantyczna również może (ale nie musi) się składać z wielu kroków, przykładowe kroki takiej analizy to np. generowanie tablicy symboli, rozwiązywanie zależności (dziedziczenie, złożone typy zmiennych / atrybutów / funkcji), ewaluacja stałych, sprawdzanie zgodności typów, etc. W przypadku naszego kompilatora, ze względu na ograniczoną ilość miejsca przeznaczoną na ten artykuł, zdecydowałem, że będzie to forma bardzo okrojona oraz skondensowana. Nasz analizator składniowy będzie zaimplementowany w postaci Visitora oraz będzie potrafił znaleźć kilka podstawowych błędów semantycznych takich jak: liczba argumentów nie zgadzająca się z liczbą parametrów, podwójna definicja funkcji o takiej samej nazwie czy odwoływanie się do niezdefiniowanej wartości. Kod naszego analizatora składniowego umieszczam poniżej:
  
      class SemanticAnalysisVisitor(ConpyBaseVisitor):
         def __init__(self):
@@ -269,6 +278,7 @@ Aby skorzystać z naszego analizatora składniowego, do funkcji `main`, na samym
             return
             
 ## Wygenerowanie formy pośredniej
+
 Kolejnym krokiem kompilacji jest generowanie formy pośredniej. Forma pośrednia to pewna reprezentacja naszego programu, zapisana w formie pewnych struktur danych lub częściej, w postaci języka programowania (wtedy mówimy o języku pośrednim). Celem istnienia formy pośredniej jest łatwiejsze wygenerowanie z niej kodu wynikowego. Językami pośrednimi mogą być np. język asemblera (dla prawdziwej maszyny lub wirtualnej), C, LLVM IR i wiele innych. W naszym kompilatorze ze względu na łatwość generowania i niewielki rozmiar implementacji, zdecydowałem, że formą pośrednią będzie kod języka C. Generator kodu, tak jak i analizator semantyczny, będzie zaimplementowany w postaci visitora. Jego kod możecie znaleźć poniżej i dodać nad funkcją `main`.
 
     MAIN_TEMPLATE = """#include <stdio.h>
@@ -337,24 +347,31 @@ Koniec końców naszą formę pośrednią chcemy gdzieś zapisać. Aby to zrobi�
             file.write(code)
 
 ## Generowanie kodu wynikowego
-W zasadzie, jeżeli naszą formą pośrednią jest język C to naszym kodem wynikowym będzie kod maszynowy **\***, którego wygenerowanie sprowadza się do wywołania kompilatora języka C, np. *gcc*, który jest domyślnie dostępny na systemie Linux. Aby to zrobić, na końcu funkcji `main` należy dodać poniższy kod:
+
+W zasadzie, jeżeli naszą formą pośrednią jest język C to naszym kodem wynikowym będzie kod maszynowy, którego wygenerowanie sprowadza się do wywołania kompilatora języka C, np. *gcc*, który jest domyślnie dostępny na systemie Linux. Aby to zrobić, na końcu funkcji `main` należy dodać poniższy kod:
 
         process = subprocess.Popen(["gcc", "-x", "c", filename_c, "-o", output_filename])
         process.wait()
 
-Pełny kod programu można znaleźć pod adresem [github.com/Kisioj/ConpyCompiler](http://github.com/Kisioj/ConpyCompiler)[2]
+Pełny kod programu można znaleźć pod adresem [github.com/Kisioj/ConpyCompiler](http://github.com/Kisioj/ConpyCompiler)[^4].
 
-**\*** Gdyby zaś naszą formą pośrednią był jakiś abstrakcyjny język asemblera, przeznaczony dla maszyny wirtualnej, to kodem wynikowym byłby kod bajtowy.
+[^4]: Krzysztof Jura, "Conpy Compiler", [https://github.com/Kisioj/ConpyCompiler](https://github.com/Kisioj/ConpyCompiler)
+
+Gdyby zaś naszą formą pośrednią był jakiś abstrakcyjny język asemblera, przeznaczony dla maszyny wirtualnej, to kodem wynikowym byłby kod bajtowy.
 
 ## Optymalizacja
-Na koniec warto napisać o optymalizacji, czyli kroku kompilacji często wymienianym między *wygenerowaniem formy pośredniej*, a *wygenerowaniem kodu wynikowego*. Często jednak optymalizacja odbywa się na różnych etapach kompilacji. No dobra, ale co można zoptymalizować? Przede wszystkim można powycinać z naszego programu nieużywane funkcje i nieosiągalne fragmenty kodu (np. kod po return, albo kod w bloku *if*, w którym warunek jest zawsze fałszywy). Można wyliczyć wartości stałych oraz tych wyrażeń, które dadzą się wyliczyć na etapie kompilacji. Dla funkcji *inline* można wstawić ich treść w miejsce wywołania. Optymalizacje również często dotyczą kosztu operacji: dzielenie przez potęgi dwójki zastępowane jest przez przesunięcia bitowe. Więcej o optymalizacji można przeczytać na Wikipedii w artykule [Optymalizacja kodu wynikowego](https://pl.wikipedia.org/wiki/Optymalizacja_kodu_wynikowego)[3]
+
+Na koniec warto napisać o optymalizacji, czyli kroku kompilacji często wymienianym między *wygenerowaniem formy pośredniej*, a *wygenerowaniem kodu wynikowego*. Często jednak optymalizacja odbywa się na różnych etapach kompilacji. No dobra, ale co można zoptymalizować? Przede wszystkim można powycinać z naszego programu nieużywane funkcje i nieosiągalne fragmenty kodu (np. kod po return, albo kod w bloku *if*, w którym warunek jest zawsze fałszywy). Można wyliczyć wartości stałych oraz tych wyrażeń, które dadzą się wyliczyć na etapie kompilacji. Dla funkcji *inline* można wstawić ich treść w miejsce wywołania. Optymalizacje również często dotyczą kosztu operacji: dzielenie przez potęgi dwójki zastępowane jest przez przesunięcia bitowe. Więcej o optymalizacji można przeczytać na Wikipedii w artykule "Optymalizacja kodu wynikowego" [^5].
+
+[^5]: Wikipedia, "Optymalizacja kodu wynikowego", [https://pl.wikipedia.org/wiki/Optymalizacja_kodu_wynikowego](https://pl.wikipedia.org/wiki/Optymalizacja_kodu_wynikowego)
 
 W przypadku naszego kompilatora optymalizacja kodu wynikowego jest robiona za nas przez kompilator *gcc*.
 
 ## Źródła
-1. Wikipedia, "Kompilator", https://pl.wikipedia.org/wiki/Kompilator
-2. Krzysztof Jura, "Conpy Compiler", https://github.com/Kisioj/ConpyCompiler
-3. Wikipedia, "Optymalizacja kodu wynikowego", https://pl.wikipedia.org/wiki/Optymalizacja_kodu_wynikowego
+
+1. Wikipedia, "Kompilator", [https://pl.wikipedia.org/wiki/Kompilator](https://pl.wikipedia.org/wiki/Kompilator)
+2. Krzysztof Jura, "Conpy Compiler", [https://github.com/Kisioj/ConpyCompiler](https://github.com/Kisioj/ConpyCompiler)
+3. Wikipedia, "Optymalizacja kodu wynikowego", [https://pl.wikipedia.org/wiki/Optymalizacja_kodu_wynikowego](https://pl.wikipedia.org/wiki/Optymalizacja_kodu_wynikowego)
 4. Terrence Par, "The Definitive ANTLR4 Reference"
-5. Federico Tomassetti, "The ANTLR Mega Tutorial", https://tomassetti.me/antlr-mega-tutorial/
-6. Dzieje Khorinis, "Daedalus Compiler", https://github.com/dzieje-khorinis/DaedalusCompiler
+5. Federico Tomassetti, "The ANTLR Mega Tutorial", [https://tomassetti.me/antlr-mega-tutorial/](https://tomassetti.me/antlr-mega-tutorial/)
+6. Dzieje Khorinis, "Daedalus Compiler", [https://github.com/dzieje-khorinis/DaedalusCompiler](https://github.com/dzieje-khorinis/DaedalusCompiler)

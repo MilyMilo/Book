@@ -1,5 +1,7 @@
 # Jak zacząć udzielać się w projektach Open Source?
 
+Piotr Gaczkowski
+
 ## Dlaczego warto zacząć?
 
 Dlaczego warto udzielać się w projektach Open Source? Dlaczego warto spędzać

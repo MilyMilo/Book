@@ -1,4 +1,8 @@
-# Streszczenie
+# Python 3.8 - hit, czy shit?
+
+Marcin Bardź
+
+## Streszczenie
 
 Artykuł opisuje nowości, jakie przynosi Python w wersji 3.8, kładąc szczególny
 nacisk na konsekwencje wprowadzenia operatora przypisania, który to stał się
@@ -6,7 +10,7 @@ kością niezgody wewnątrz pythonowej społeczności. Postaram się też spojrz
 na rozwój Pythona w szerszej perspektywie i zastanowić się nad jego
 bliższą oraz dalszą przyszłością.
 
-# Wprowadzenie
+## Wprowadzenie
 
 Python nieustannie zmienia się i ewoluuje - przez ponad ćwierć wieku istnienia,
 przeobraził się nie do poznania, dojrzał i ogromnie się rozwinął.
@@ -31,7 +35,7 @@ społeczność poradzi sobie z brzemieniem odpowiedzialności? Na żadne z
 powyższych pytań nie odpowiem w niniejszym artykule, ale postaram się
 przedstawić kilka faktów i spekulacji związanych z najnowszym Pythonem.
 
-# Kość niezgody, czyli PEP 572
+## Kość niezgody, czyli PEP 572
 
 Operator przypisania `:=` (_walrus operator_, ang. _walrus_ = mors) ma na celu
 uproszczenie kodu przez umożliwienie przypisywania wartości do zmiennych
@@ -121,12 +125,12 @@ Czy Python potrzebował PEP 572? Trudno powiedzieć, ale na pewno konsekwencje
 wojny wokół tego dokumentu są bardzo poważne i wpłyną długofalowo na przyszłość
 języka.
 
-# Co ponadto w wersji 3.8?
+## Co ponadto w wersji 3.8?
 
 Nowy Python, to nie tylko PEP 572 - mamy szereg zmian, zarówno w samym języku,
 jak i w bibliotece standardowej. Poniżej pokrótce omówię niektóre z nich.
 
-## Argumenty wyłącznie pozycyjne
+### Argumenty wyłącznie pozycyjne
 
 Moduły Pythona napisane w C już od dawna mają możliwość wymuszenia użycia
 argumentów funkcji wyłącznie przez ich nazwę, jak i wyłącznie pozycyjnych.
@@ -153,7 +157,6 @@ wprowadza nowy symbol `/` w liście argumentów, oddzielający parametry
 wyłącznie pozycyjne (po jego lewej) od tych pozycyjno/nazwanych (po prawej).
 Tak więc w Pythonie 3.8 możemy już napisać:
 
-
 ```python
 def f(a, /, b, *, c):
     pass
@@ -177,14 +180,14 @@ sorted(iterable, /, *, key=None, reverse=False):
 ...
 ```
 
-## Równoległy cache dla skompilowanych plików
+### Równoległy cache dla skompilowanych plików
 
 Kolejnym miłym usprawnieniem w Pythonie 3.8 jest możliwość wyrzucenia
 skompilowanych plików (`__pycache__`) z katalogów kodu źródłowego.
 Służy do tego nowa zmienna środowiskowa `PYTHONPYCACHEPREFIX` i parametr
 wiersza poleceń `-X pycache_prefix`.
 
-## Znak `=` w łańcuchach formatujących
+### Znak `=` w łańcuchach formatujących
 
 Nowy modyfikator f-łańcuchów produkuje zapis w postaci `nazwa=wartość` i może
 oszczędzić nieco czasu programistom:
@@ -197,7 +200,7 @@ oszczędzić nieco czasu programistom:
 '(mors:=1)=1'
 ```
 
-## Pickle - protokół w wersji 5
+### Pickle - protokół w wersji 5
 
 W nowej wersji protokołu wprowadzono wsparcie dla zewnętrznych buforów
 (ang. _out-of-band_), pomocnych przy przetwarzaniu wielordzeniowym i
@@ -205,13 +208,13 @@ wielomaszynowym. Umożliwia ono optymalizację przesyłu danych przez eliminacj�
 niepotrzebnych kopii danych w pamięci, a także daje możliwość zastosowania
 specjalizowanych algorytmów kompresji.
 
-## Pozostałe zmiany
+### Pozostałe zmiany
 
 Poza tym, co widoczne, mamy do czynienia ze szeregiem zmian niezauważalnych
 dla przeciętnego użytkownika (PEP 578, PEP 587, PEP 590), drobnych poprawek
 składni, małych, ewolucyjnych zmian w bibliotekach oraz mnóstwem optymalizacji.
 
-# Python 3.8 - hit, czy shit?
+## Python 3.8 - hit, czy shit?
 
 Czy operator przypisania zmieni wiele w Pythonie? Prawdopodobnie nie,
 największa zmiana z nim związana już się dokonała, kiedy to zaszczuty Guido
@@ -225,10 +228,10 @@ Wszystkie wdrożone modyfikacje idą ku większej prostocie, spójności i
 szybkości języka. Dlatego też jestem spokojny o przyszłość naszego ulubionego
 cyfrowego gada.
 
-# Żródła
+## Źródła
 
-* <https://docs.python.org/3.8/whatsnew/3.8.html> Co nowego w Pythonie 3.8
-* <https://www.python.org/dev/peps/pep-0572/> PEP 572 - Assignment Expressions
-* <https://www.python.org/dev/peps/pep-0570/> PEP 570 - Python Positional-Only Parameters
-* <https://www.python.org/dev/peps/pep-0574/> PEP 574 - Pickle protocol 5 with out-of-band data
-* <https://www.mail-archive.com/python-committers@python.org/msg05628.html> \[python-committers\] Transfer of power
+1. Co nowego w Pythonie 3.8, <https://docs.python.org/3.8/whatsnew/3.8.html>
+2. PEP 572 - Assignment Expressions, <https://www.python.org/dev/peps/pep-0572/>
+3. PEP 570 - Python Positional-Only Parameters, <https://www.python.org/dev/peps/pep-0570/>
+4. PEP 574 - Pickle protocol 5 with out-of-band data, <https://www.python.org/dev/peps/pep-0574/>
+5. \[python-committers\] Transfer of power, <https://www.mail-archive.com/python-committers@python.org/msg05628.html>
