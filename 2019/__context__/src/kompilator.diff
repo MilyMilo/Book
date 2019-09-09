@@ -15,3 +15,12 @@
  
  \subsection[wstęp]{Wstęp}
  
+@@ -162,7 +160,7 @@
+ wyżej umieszczonego strumienia tokenów wygenerował następujące drzewo
+ wyprowadzenia:
+ 
+-\placefigure{Drzewo wyprowadzenia.}{\externalfigure[parseTree.png]}
++\placefigure{Drzewo wyprowadzenia.}{\externalfigure[parseTree.png][width=7cm]}
+ 
+ Na powyższym drzewie wyprowadzenia dobrze widać strukturę naszego
+ programu; widać, które tokeny składają się na definicję funkcji
