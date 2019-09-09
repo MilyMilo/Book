@@ -8,15 +8,15 @@ Introducing agility into an organization is not an easy task, not matter if you 
 
 What’s to blame? Our inherent nature, for one, as we are creatures of hierarchy. Self-organization is not as natural to us as we would like to think. But equally important are the misconceptions about agile in general and the lack of appreciation for software patterns.
 
-Let’s look at those misconceptions, the culture of agility, and what *processes and tools* to apply to the code once we’ve transformed the *individuals and interactions*.
+Let’s look at those misconceptions, the culture of agility, and what _processes and tools_ to apply to the code once we’ve transformed the _individuals and interactions_.
 
 ## Let’s do Agile!
 
 What does introducing agile to a company usually look like? A manager learns of a methodology which speeds up development and requires less up-front planning, called “Agile”. They assume it saves money, produces more features and Makes Development Great Again. So obviously they want to jump on board.
 
-Let’s say they go online and try to look for resources on the subject. Chances are they come out with a very strong conviction that “doing Agile” effectively means Scrum, and Scrum, in turn, means sprints. Before you know it, a JIRA license is bought, someone is titled Product Owner and they begin stuffing all the current tickets in a backlog, creating a *five year plan* cut up in 2-week packets.
+Let’s say they go online and try to look for resources on the subject. Chances are they come out with a very strong conviction that “doing Agile” effectively means Scrum, and Scrum, in turn, means sprints. Before you know it, a JIRA license is bought, someone is titled Product Owner and they begin stuffing all the current tickets in a backlog, creating a _five year plan_ cut up in 2-week packets.
 
-Given that Scrum is a process (actually a framework, but for the sake of argument) and JIRA is a tool, stack that against *The Agile Manifesto’s* first and foremost point: “Individuals and interactions over processes and tools” and you know something’s backwards. An agile revolution is a change of who you are, not of what you do. “Agile” is an *adjective*. “Doing agile” makes about as much sense semantically as “doing purple”.
+Given that Scrum is a process (actually a framework, but for the sake of argument) and JIRA is a tool, stack that against _The Agile Manifesto’s_ first and foremost point: “Individuals and interactions over processes and tools” and you know something’s backwards. An agile revolution is a change of who you are, not of what you do. “Agile” is an _adjective_. “Doing agile” makes about as much sense semantically as “doing purple”.
 
 ## A lesson from General Motors
 
@@ -34,8 +34,7 @@ The whole company was focused on utilization - making the most of their work for
 
 ## The legacy of low agility
 
-Consider a software system built by a “1970s GM of software”. High pressure, impossible deadlines, badly understood business requirements and utilization as a measurement of productivity. That in mind, let me introduce you to the *Conway’s law:*
-
+Consider a software system built by a “1970s GM of software”. High pressure, impossible deadlines, badly understood business requirements and utilization as a measurement of productivity. That in mind, let me introduce you to the _Conway’s law:_
 
 > organizations which design systems ... are constrained to produce designs which are copies of the communication structures of these organizations.
 
@@ -43,7 +42,7 @@ That software will have an accidental architecture, molded by all the shortsight
 
 Let’s now put effort (and sweat and tears) into reshaping the organization so it has a flat structure full of trust. Imagine its culture turned into a 1970s Toyota with a management process as lean and agile as a Parkour runner. Bad news, though - it still won’t deliver a single sprint.
 
-Why? Because you now have a very agile organization working with legacy code, written in a non-agile era. Everyone’s eager to pull on the *adon cord*, but there’s none and they’re actually stuck at a Ford Model T-style production line.
+Why? Because you now have a very agile organization working with legacy code, written in a non-agile era. Everyone’s eager to pull on the _adon cord_, but there’s none and they’re actually stuck at a Ford Model T-style production line.
 
 Luckily, having the right culture (a better guide to getting there is beyond the scope of this text, sorry), you can start using the right tools and processes to bring your code into the new era. But first, let’s try to understand how that big ball of mud we call “legacy code” came to be in the first place.
 
@@ -61,32 +60,29 @@ This is where accidental complexity comes from - starting with a locked down dec
 
 Ok, but how do we make an agile revolution happen in legacy code built by a non-agile company?
 
-*Gradually.*
+_Gradually._
 
-Of course you could just create a new repo and start rewriting the whole thing, but that’s called the *second system syndrome*. Possible outcomes?
-
+Of course you could just create a new repo and start rewriting the whole thing, but that’s called the _second system syndrome_. Possible outcomes?
 
 1. it never reaches production and you just stay with the old system
 2. your organization goes bankrupt because it could not keep up with the competition
 3. you start to rush it at some point and end up with even more mess.
 
-So that won’t work. We’re stuck with re-shaping the existing system. For that, let's turn to David Wheeler’s *fundamental theorem of software engineering*:
-
+So that won’t work. We’re stuck with re-shaping the existing system. For that, let's turn to David Wheeler’s _fundamental theorem of software engineering_:
 
 > All problems in computer science can be solved by another level of indirection
 
 And follow the advice the advice from Kent Beck, so we don’t try to do everything at once:
 
-
 > for each desired change, make the change easy (warning: this may be hard), then make the easy change
 
-The procedure to follow is not so different from the standard TDD *Red-Green-Refactor* cycle.
+The procedure to follow is not so different from the standard TDD _Red-Green-Refactor_ cycle.
 
 ## Test coverage
 
 Face the facts - it doesn’t have tests. In fact, looking at legacy projects I find an interesting correlation - the less important a piece of code, the more test coverage. Some irrelevant CSV exporter? 100% branch coverage. The master function doing everything from user log in to firing nuclear missiles? A single test. For a happy path. And it’s probably commented because it didn’t work.
 
-It will be ugly, but there’s no other way - make sure you cover as much business logic as possible. Take that opportunity to learn the system. It might even be impossible to tell what states it may have, so operate under the assumption it runs on magic. Preparing the *interactive specification* (aka the test suite) will let you understand all the quirks and notice the areas for improvement.
+It will be ugly, but there’s no other way - make sure you cover as much business logic as possible. Take that opportunity to learn the system. It might even be impossible to tell what states it may have, so operate under the assumption it runs on magic. Preparing the _interactive specification_ (aka the test suite) will let you understand all the quirks and notice the areas for improvement.
 
 However, do not attempt to fix or refactor anything at this point. Seriously, don’t. Only once you’re satisfied with the test suite can you try to renovate the whole thing.
 
@@ -98,17 +94,17 @@ Using feature flags you can make serious changes gradually, while pushing them c
 
 Most importantly though, it also shapes the way you (re)build the code. It will force you to increase cohesion and reduce coupling. Eventually, you will just replace code instead of modifying it, which is the ultimate goal when it comes to code agility.
 
-If you now think “what about changing the data base schema, I can’t run two schemas at the same time!” You’re right, you (usually) can’t. But your business logic shouldn’t really care about your database schema, only about entities. That’s what the *“Short term benefits, long term headaches”* section was about. Choosing to support feature flags will, again, motivate you to reduce that coupling.
+If you now think “what about changing the data base schema, I can’t run two schemas at the same time!” You’re right, you (usually) can’t. But your business logic shouldn’t really care about your database schema, only about entities. That’s what the _“Short term benefits, long term headaches”_ section was about. Choosing to support feature flags will, again, motivate you to reduce that coupling.
 
 A cool side-effect of being able to run two versions side by side is you can make sure they do the same thing before making a switch. Once you’re confident, you just scrap the old one - leaving only the new and shiny code. Stress reduction is always a nice bonus.
 
 ## Plumbing
 
-Another great way of learning new things about your system and forcing yourself to think of how it should be structured is plumbing  - working on your pipelines.
+Another great way of learning new things about your system and forcing yourself to think of how it should be structured is plumbing - working on your pipelines.
 
 Tiny, throw-away systems obviously don’t need the whole “continuous deployment with automated horizontal scaling architecture as code” shebang, but if you got this far in this text, yours probably does (or you’re just curious, which is also great).
 
-Among other things, it helps you understand the value of configuration. Most programmers don’t really consider it *code,* yet a config file is just as much a piece of code as anything else. You realize that as soon as you have to push everything through a pipeline in a tractable and secure way.
+Among other things, it helps you understand the value of configuration. Most programmers don’t really consider it _code,_ yet a config file is just as much a piece of code as anything else. You realize that as soon as you have to push everything through a pipeline in a tractable and secure way.
 
 ## Set the stage
 
@@ -128,9 +124,9 @@ Since you’re already looking at your staging, take a look at your repository a
     |/|
 ```
 
-Staging is meant to be a stop on your path to production, just as it is in QA. Yet in the repo stuff is merged into production without going *through* staging, which means staging will drift away - there’s really nothing blocking you from creating a huge branch with a multitude of changes, merging it into staging and leaving it there indefinitely. Or merging into production without going through staging.
+Staging is meant to be a stop on your path to production, just as it is in QA. Yet in the repo stuff is merged into production without going _through_ staging, which means staging will drift away - there’s really nothing blocking you from creating a huge branch with a multitude of changes, merging it into staging and leaving it there indefinitely. Or merging into production without going through staging.
 
-A better alternative? There are numerous options, but  you generally don't want to merge your feature branches into more than one place. For instance:
+A better alternative? There are numerous options, but you generally don't want to merge your feature branches into more than one place. For instance:
 
 ```
     * Merge feature into production
@@ -143,9 +139,9 @@ A better alternative? There are numerous options, but  you generally don't want 
     | |
 ```
 
-Again, the purpose of this is to make it *inconvenient to do the wrong thing*.
+Again, the purpose of this is to make it _inconvenient to do the wrong thing_.
 
-Made a huge, conflict-inducing branch and merged it into staging? You get punished by a freeze on your entire pipeline. Again, this workflow promotes incremental changes and small PRs. It amplifies the need for feature flags. It forces you to change your thinking from short term convenience to *sustainability*.
+Made a huge, conflict-inducing branch and merged it into staging? You get punished by a freeze on your entire pipeline. Again, this workflow promotes incremental changes and small PRs. It amplifies the need for feature flags. It forces you to change your thinking from short term convenience to _sustainability_.
 
 Ideally, you get to a point where your feature branches live for a day or two before they’re merged, and they build on each other, making code review a breeze. Another huge benefit.
 
@@ -155,14 +151,13 @@ While I believe following these rules is beneficial, context matters! As Kevlin 
 
 The point of Clean Architecture (and the likes) is to push important decisions as far away as possible. Sometimes, though, the most important decision is whether or not you need these rules at all, because they do come at a cost. Sure, they help you avoid accidental complexity, but intentional complexity is just as bad when it serves no purpose.
 
-Software design patterns are there for a reason, but just like Scrum, Kanban and the TPS, they don’t exist in vacuum. They’re there to help you make sense of a large system, but they can just as easily *create* one. If you don’t know what I mean, just google “fizzbuzz enterprise edition”.
+Software design patterns are there for a reason, but just like Scrum, Kanban and the TPS, they don’t exist in vacuum. They’re there to help you make sense of a large system, but they can just as easily _create_ one. If you don’t know what I mean, just google “fizzbuzz enterprise edition”.
 
 ## Pain is good, pain means you’re alive
 
 You’re probably noticing that most of these techniques are there to force you to do something painful. This is intentional. If you look at the history of programming, it’s basically defined by taking away freedoms. Just like that time we got rid of `goto`.
 
-All of these things make writing individual lines of code *harder*, so writing systems and collaborating can be *easier*. In the words of Mark Seemann:
-
+All of these things make writing individual lines of code _harder_, so writing systems and collaborating can be _easier_. In the words of Mark Seemann:
 
 > Some developers seem to think that typing is a major bottleneck while programming. It's not.
 
@@ -172,6 +167,6 @@ The bottleneck is understanding what to type and what’s been typed. That’s e
 
 1. Martin, Robert C. (2017). Clean Architecture: A Craftsman's Guide to Software Structure and Design
 2. Jez Humble, Barry O'Reilly, Joanne Molesky (2014). Lean Enterprise: How High Performance Organizations Innovate at Scale
-3. Kevlin Henney, [https://www.youtube.com/playlist?list=PL6wxfKvkNqRugfIiKKgRXa_0wKIQW_ZEH](https://www.youtube.com/playlist?list=PL6wxfKvkNqRugfIiKKgRXa_0wKIQW_ZEH)
+3. Kevlin Henney,  
+   [https://www.youtube.com/playlist?list=PL6wxfKvkNqRugfIiKKgRXa_0wKIQW_ZEH](https://www.youtube.com/playlist?list=PL6wxfKvkNqRugfIiKKgRXa_0wKIQW_ZEH)
 4. Greg Young - The art of destroying software, https://vimeo.com/108441214
-

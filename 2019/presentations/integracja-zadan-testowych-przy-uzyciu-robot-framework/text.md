@@ -42,7 +42,7 @@ miejsc pracy jest wiele.
 Zdecydowaliśmy się wykorzystać narzędzia obecne i nieobecne dotąd w Nordei do zautomatyzowania i uatrakcyjnienia naszej
 pracy i wyników naszej pracy. Jak wiadomo, nie tylko dane się liczą, ale również czytelna i atrakcyjna ich prezentacja.
 Do osiągnięcia tego celu zaprzęgnęliśmy wszystkich naszych inżynierów. Zmieniliśmy język używany do określania naszego
-zespołu. Po wydaniu pierwszego narzędzia, oficjalnie już nie byliśmy testerami, tylko *inżynierami jakości*.
+zespołu. Po wydaniu pierwszego narzędzia, oficjalnie już nie byliśmy testerami, tylko _inżynierami jakości_.
 
 ### Automatyzacja za wszelką cenę
 
@@ -50,7 +50,7 @@ Zdecydowaliśmy się podejść do sprawy kompleksowo. Każde zadanie, które trz
 sposób, sprowadziliśmy do postaci algorytmu. Każdy dokument opisaliśmy przy pomocy jinja2. Żeby wszystkie te automatyzacje
 były dostępne, stworzyliśmy portal testera, prezentujący proste wizualizacje danych oraz pozwalający na wywołanie funkcji
 samo-pracujących.
- 
+
 ### Szeroki wybór narzędzi
 
 "Rynek", o ile możemy tak nazwać zbiór narzędzi dostępnych za darmo dla każdego użytkownika, oferuje ogromną liczbę
@@ -110,8 +110,8 @@ potrzeba "klepania" raportów co sprint.
 ### Firma nie odnotowała kosztu
 
 A co najważniejsze w tym wszystkim, firma nie odnotowała żadnego (dodatkowego) kosztu. Wykorzystane narzędzia były darmowe,
-albo uprzednio zakupione przez Nordeę. Czas wykorzystany na rozwój automatyzacji był i tak czasem "straconym". Tj. zamiast
-oczekiwania na coś, zabieraliśmy się za usprawnienia.
+albo uprzednio zakupione przez Nordeę. Czas wykorzystany na rozwój automatyzacji był i tak czasem "straconym".  
+Tj. zamiast oczekiwania na coś, zabieraliśmy się za usprawnienia.
 
 ## Zrób to sam!
 

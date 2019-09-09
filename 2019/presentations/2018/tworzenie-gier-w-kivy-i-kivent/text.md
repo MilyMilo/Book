@@ -1,51 +1,47 @@
-Tworzenie Gier w Kivy i Kivent
+# Tworzenie Gier w Kivy i Kivent
+
+## Łukasz Mach
+
 ==============================
 
 Zarówno Kivy jak i Kivent mogą służyć do pisania prostych gier w Pythonie. W
 tym artykule, na przykładzie **bardzo** prostej aplikacji gropodobnej, porównam
 podstawowe aspekty tworzenia gier w jednym i drugim.
 
+## Kivy - omówienie
 
-Kivy - omówienie
-----------------
+Kivy (http://kivy.org) jest wieloplatformową (Linux, Windows, macOS, Android, iOS) biblioteką do tworzenia UI.
 
-Kivy (http://kivy.org) jest wieloplatformową (Linux, Windows, macOS, Android, iOS) biblioteką do tworzenia UI. 
+Napisana jest w Pythonie i Cythonie. Obsługuje zarówno Pythona 2.x jak i 3.x.
 
-Napisana jest w Pythonie i Cythonie. Obsługuje zarówno Pythona 2.x jak i 3.x. 
+## Zalety Kivy
 
-Zalety Kivy
------------
+- wieloplatformowość. Aplikacja którą stworzymy będzie działała (prawie) tak samo pod linuksem jak i pod androidem, z zastrzeżeniem różnic w rozdzielczości.
+- przejrzysty i bogaty język KV opisujący nam UI aplikacji (i nie tylko), bogactwo layoutów
+  szczegóły składni języka można znaleźć pod adresem (http://kivy.org/docs/guide/lang.html)
+- buildozer (o którym niżej)
 
-* wieloplatformowość. Aplikacja którą stworzymy będzie działała (prawie) tak samo pod linuksem jak i pod androidem, z zastrzeżeniem różnic w rozdzielczości. 
-* przejrzysty i bogaty język KV opisujący nam UI aplikacji (i nie tylko), bogactwo layoutów
-  szczegóły składni języka można znaleźć pod adresem (http://kivy.org/docs/guide/lang.html) 
-* buildozer (o którym niżej)
+## Wady Kivy
 
+- mimo bogactwa layoutów, do szału człowieka może doprowadzić konieczność umieszczenia buttona o zadanych rozmiarach w rogu ekranu,
+  albo przycisku który dopasuje się do zawartości i jednocześnie będzie miał konkretne proporcje.
+- inicjalizacja biblioteki, okienek i w ogóle całej warstwy pod spodem jest w momencie `import kivy` a nie w momencie uruchomienia mainloop. Co czasem wkurza.
+- twórcy kivy mieli własny pomysł na mechanizmy logowania. Czyli `Logger.info` zamiast `logging.info`, defaultowy handler jest na ekran i do plików tekstowych w katalogu domowym.
+  Co prawda jest to oparte na pythonowy moduł `logging`, ale próba wpięcia się w to albo wręcz przekierowania tego zupełnie np. do własnego `logging.basicConfig(...)` jest trudne i nieintuicyjne.
 
-Wady Kivy
----------
+## Kilka słów na temat buildozera
 
-* mimo bogactwa layoutów, do szału człowieka może doprowadzić konieczność umieszczenia buttona o zadanych rozmiarach w rogu ekranu, 
-  albo przycisku który dopasuje się do zawartości i jednocześnie będzie miał konkretne proporcje. 
-* inicjalizacja biblioteki, okienek i w ogóle całej warstwy pod spodem jest w momencie `import kivy` a nie w momencie uruchomienia mainloop. Co czasem wkurza. 
-* twórcy kivy mieli własny pomysł na mechanizmy logowania. Czyli `Logger.info` zamiast `logging.info`, defaultowy handler jest na ekran i do plików tekstowych w katalogu domowym. 
-  Co prawda jest to oparte na pythonowy moduł `logging`, ale próba wpięcia się w to albo wręcz przekierowania tego zupełnie np. do własnego `logging.basicConfig(...)` jest trudne i nieintuicyjne. 
-
-
-Kilka słów na temat buildozera
-------------------------------
-Tworząc aplikację w Kivy, niemal na pewno mamy możliwość uruchomienia jej na androidzie bez większego wysiłku, za pomocą *Buildozera*. 
+Tworząc aplikację w Kivy, niemal na pewno mamy możliwość uruchomienia jej na androidzie bez większego wysiłku, za pomocą _Buildozera_.
 Buildozer jest to skrypt/nakładka na P4A
 (`https://github.com/kivy/python-for-android`) która robi za użytkownika całą
 niewdzięczną robotę, polegająca na ściąganiu odpowiednich SDK, NDK i innych
-*DK. 
+\*DK.
 
 Przy odrobinie szczęścia, można odpalić aplikację napisaną w Kivy bez wnikania
 w to jakie paczki do siebie pasują, gdzie je (są gigantyczne przecież)
-rozpakować i w ogóle jakie rodzaje *DK w ogóle występują. 
+rozpakować i w ogóle jakie rodzaje \*DK w ogóle występują.
 
-Tworzenie gry w Kivy
---------------------
+## Tworzenie gry w Kivy
 
 W artykule opiszę najprostszą grę w kivy. (gra to dużo powiedziane ... coś co może być podstawą do gry :). Niech to to będzie przeciskanie się między balonowatymi obiektami do prawej ściany, która będzie celem gry.
 
@@ -66,7 +62,7 @@ Installing collected packages: cython
 Successfully installed cython-0.28.4
 ```
 
-Niestety nie da się tego załatwić pojedynczym plikiem req.txt, bo pakiety muszą być instalowane w osobnych krokach. 
+Niestety nie da się tego załatwić pojedynczym plikiem req.txt, bo pakiety muszą być instalowane w osobnych krokach.
 
 ```bash
 
@@ -79,11 +75,11 @@ Successfully installed Kivy-Garden-0.1.4 certifi-2018.4.16 chardet-3.0.4 docutil
 
 ```
 
-Aplikację zacznijmy od pliku .py - nazwijmy go `main.py`. Można go nazwać dowolnie, ale jeżeli zechcemy użyć *buildozera* 
-do zbudowania paczki na Androida, to musi się nazywać `main.py` i koniec. 
-
+Aplikację zacznijmy od pliku .py - nazwijmy go `main.py`. Można go nazwać dowolnie, ale jeżeli zechcemy użyć _buildozera_
+do zbudowania paczki na Androida, to musi się nazywać `main.py` i koniec.
 
 main.py:
+
 ```python
 from kivy.app import App
 from kivy.uix.widget import Widget
@@ -101,11 +97,12 @@ if __name__ == '__main__':
     KivyGameApp().run()
 ```
 
-Jest zadeklarowana klasa `KivyGame`, dziedzicząca po `Widget`, która jest używana w `KivyGameApp`. 
+Jest zadeklarowana klasa `KivyGame`, dziedzicząca po `Widget`, która jest używana w `KivyGameApp`.
 
-`KivyGameApp` domyślnie ładuje jako *root widget* to co jest pierwsze w odpowiednim pliku .kv. A odpowiedni plik .kv to to jest `<nazwa aplikacji bez "App", lowercase>.kv`
+`KivyGameApp` domyślnie ładuje jako _root widget_ to co jest pierwsze w odpowiednim pliku .kv. A odpowiedni plik .kv to to jest `<nazwa aplikacji bez "App", lowercase>.kv`
 
 kivygame.kv
+
 ```python
 KivyGame:
     BoxLayout:
@@ -116,13 +113,13 @@ KivyGame:
             size_hint: 1, 1
 ```
 
-Tutaj mamy `Widget`, który w sobie zawiera `BoxLayout`, domyślnie rozciągający się na całe `KivyGame` i zawierający w sobie `Label` z tekstem *to ja - tło*, rozciągający się na całego rodzica, czyli `BoxLayout` w tym przypadku.
+Tutaj mamy `Widget`, który w sobie zawiera `BoxLayout`, domyślnie rozciągający się na całe `KivyGame` i zawierający w sobie `Label` z tekstem _to ja - tło_, rozciągający się na całego rodzica, czyli `BoxLayout` w tym przypadku.
 
 ![apka wygląda tak](files/01-bare-app.png)
 
 #### Dodajemy postaci
 
-Do root widgeta dodaję informację o postaci, nazwijmy ją *Fred*, w [kivygame.kv](https://gitlab.com/mahomahomaho/pycon-kivygame/blob/02-fred-and-baloons/kivygame.kv):
+Do root widgeta dodaję informację o postaci, nazwijmy ją _Fred_, w [kivygame.kv](https://gitlab.com/mahomahomaho/pycon-kivygame/blob/02-fred-and-baloons/kivygame.kv):
 
 ```python
     Widget:
@@ -130,7 +127,7 @@ Do root widgeta dodaję informację o postaci, nazwijmy ją *Fred*, w [kivygame.
         center: 300, 300
 ```
 
-Widget jest poza  `BoxLayout`, bo layout ma za zadanie rozmieścić elementy UI wg jakiegoś algorytmu, a postać ma być dokładnie w określonym miejscu. 
+Widget jest poza `BoxLayout`, bo layout ma za zadanie rozmieścić elementy UI wg jakiegoś algorytmu, a postać ma być dokładnie w określonym miejscu.
 Goły widget jednak nie zawiera nic, więc trzeba coś do niego wsadzić. Najprościej narysować coś na jego płótnie:
 
 ```python
@@ -156,7 +153,7 @@ KivyGame:
 
 i od teraz w KivyGame pojawia się `self.fred`.
 
-#### Dodanie balonów #####
+#### Dodanie balonów
 
 Balony dodaję w inny sposób: nie moge ich zadeklarować w pliku .kv, bo nie wiem dokładnie ile ich będzie. Dlatego, w pliku .kv definiuję wygląd klasy `<Baloon>` zaś dodanie jej będzie odbywać się w kodzie.
 
@@ -171,7 +168,7 @@ plik [kivygame.kv](https://gitlab.com/mahomahomaho/pycon-kivygame/blob/03-random
             source: 'img/baloon.png'
 
     size: 100, 100
-    
+
 ```
 
 oraz [main.py](https://gitlab.com/mahomahomaho/pycon-kivygame/blob/03-randommoves/main.py):
@@ -201,7 +198,6 @@ class KivyGame(Widget):
 Efekt jak poniżej:
 ![apka z postacią i balonami](files/02-fred-and-baloons.png)
 
-
 #### Apka z losowymi przemieszczeniami się balonów
 
 W `KivyGame.__init__` uruchamiamy wywoływanie metody `update` 30 razy na sekundę:
@@ -227,7 +223,7 @@ W repozytorium kod jest oznaczony tagiem [03-randommoves](https://gitlab.com/mah
 #### Dodany input, można sterować, nadal brak interakcji
 
 Najprościej dodać obsługe myszki, wystarczy tylko przeciążyć metody `on_touch_*`. W naszym przypadku - będzie to `on_touch_up`.
-Przyśpieszamy Freda  w kierunku punktu kliknięcia. 
+Przyśpieszamy Freda w kierunku punktu kliknięcia.
 
 ```python
 class KivyGame(Widget):
@@ -251,7 +247,7 @@ i samo przyśpieszenie:
 
 ```
 
-Klawiatura jest ciutkę mniej oczywista: 
+Klawiatura jest ciutkę mniej oczywista:
 
 ```python
 from kivy.base import EventLoop
@@ -280,27 +276,28 @@ class KivyGame(Widget):
         self.fred_speed += Vector(dx, dy)
 ```
 
-Czyli, możemy sterować już Fredem, ale nadal jest zero interakcji między Fredem a balonami. 
+Czyli, możemy sterować już Fredem, ale nadal jest zero interakcji między Fredem a balonami.
 
 #### Fizyka: jest interakcja, ale wszystko nam ucieka
 
 Do fizyki mamy 2 świetne biblioteki: **pymunk** (http://pymunk.org ) i
 **cymunk** (http://github.com/kivy/cymunk ) - obie oparte na **Chipmunk**
-(http://chipmunk-physics.net ). 
+(http://chipmunk-physics.net ).
 
-Do niedawna tylko *Cymunk* wchodził w grę, jeżeli trzeba było zbudować grę na
-androida. Od ponad roku *Pymunk* ma także swoją receptę w *Python4android* więc należy sądzić że też jest używalny. 
+Do niedawna tylko _Cymunk_ wchodził w grę, jeżeli trzeba było zbudować grę na
+androida. Od ponad roku _Pymunk_ ma także swoją receptę w _Python4android_ więc należy sądzić że też jest używalny.
 
 Cymunk jest nieco do tyłu w stosunku do Pymunka jeżeli chodzi o funckcjonalność
-i obsługiwaną wersję *Chipmunka*, użyję jednak Cymunka w tym przykładzie, jako
-że *Kivent*, o którym jest w dalszej części artykułu, używa właśnie *Cymunka*. 
+i obsługiwaną wersję _Chipmunka_, użyję jednak Cymunka w tym przykładzie, jako
+że _Kivent_, o którym jest w dalszej części artykułu, używa właśnie _Cymunka_.
 
 Instalacja cymunk:
+
 ```bash
    maho@dlaptop:~/workspace/kiventgames/kivygame$ pip install git+https://github.com/kivy/cymunk
 ```
 
-I wkładam *cymunka* do aplikacji:
+I wkładam _cymunka_ do aplikacji:
 
 ```python
 from cymunk import Space
@@ -319,12 +316,12 @@ class KivyGame(Widget):
         self.space.step(1.0 / 30)
 ```
 
-W update robimy `tick` fizyki - mówimy jej że minęło `1/30` sekundy. Można podać zmienną `dt` zamiast sztywnego `1/30`, 
+W update robimy `tick` fizyki - mówimy jej że minęło `1/30` sekundy. Można podać zmienną `dt` zamiast sztywnego `1/30`,
 ale problem jest taki że jeżeli coś się przytka w systemie i np. następne
 update zrobi się nie za `1/30` sekundy a za jedną sekundę, to może się np. okazać
 że jakiś obiekt przeleciał przez ścianę. Lepiej więc poświęcić zgodność czasu
-fizyki *chipmunka* z czasem rzeczywistym, niż narazić się na fantastycznie
-wielkie przyśpieszenia osiągane przez obiekty. 
+fizyki _chipmunka_ z czasem rzeczywistym, niż narazić się na fantastycznie
+wielkie przyśpieszenia osiągane przez obiekty.
 
 Trzeba powiązać obiekty z `self.space`:
 
@@ -388,7 +385,7 @@ Po uruchomieniu wygląda tak:
 
 ![po uruchomieniu wygląda tak](files/05-physics-01.png)
 
-Balony się pięknie rozsunęły. Ale, widać że nie da się już sterować Fredem, zaś balony przestały się ruszać. To oczywiste, wszelkie zmiany do `self.fred.pos` są kasowane poprzez ustawianie tej pozycji do fizycznego ciała. Dlatego, trzeba od tej pory operować tylko na ciałach fizycznych. 
+Balony się pięknie rozsunęły. Ale, widać że nie da się już sterować Fredem, zaś balony przestały się ruszać. To oczywiste, wszelkie zmiany do `self.fred.pos` są kasowane poprzez ustawianie tej pozycji do fizycznego ciała. Dlatego, trzeba od tej pory operować tylko na ciałach fizycznych.
 
 Dlatego to:
 
@@ -396,7 +393,7 @@ Dlatego to:
             b.pos = (x + randint(-5, 5), y + randint(-5, 5))
 ```
 
-zamieniam na 
+zamieniam na
 
 ```python
             b.body.apply_impulse((randint(-10, 10), randint(-10, 10)))
@@ -430,13 +427,13 @@ Kod pod tagiem [05-physics-02](https://gitlab.com/mahomahomaho/pycon-kivygame/tr
 
 #### Dodajemy ściany
 
-Balony i główny bohater nam uciekają, trzeba zrobić ściany. Ściany będą na granicy okienka, a więc i tak niewidoczne, a więc tworzymy te obiekty tylko w `Space` cymunka. 
+Balony i główny bohater nam uciekają, trzeba zrobić ściany. Ściany będą na granicy okienka, a więc i tak niewidoczne, a więc tworzymy te obiekty tylko w `Space` cymunka.
 
 Żeby się nie okazało że zmniejszając okienko, "przelecimy" ścianą przez obiekt, ściany zrobimy naprawdę bardzo grube, jak na obrazku:
 
 ![ściany](files/walls.png)
 
-Korzystamy ze kształtu `Segment`, któremu nadamy bardzo dużą grubość (400px). 
+Korzystamy ze kształtu `Segment`, któremu nadamy bardzo dużą grubość (400px).
 
 ```python
 class KivyGame(Widget):
@@ -471,7 +468,7 @@ class KivyGame(Widget):
                 (Vec2d(w + R, h + 2 * R), Vec2d(w + R, -2 * R))], R
 ```
 
-`Segment` jest dodany jako ciało statyczne, nie domyślne -- dynamiczne. Ciało statyczne jest to ciało które uczestniczy w odbiciach z innymi ciałami, ale nie podlega siłom/nie zmienia położenia. 
+`Segment` jest dodany jako ciało statyczne, nie domyślne -- dynamiczne. Ciało statyczne jest to ciało które uczestniczy w odbiciach z innymi ciałami, ale nie podlega siłom/nie zmienia położenia.
 
 Dodatkowo, reagujemy na zmianę rozmiaru okna (po zmianie parametrów kształtów ciała dynamicznego, reindeksujemy przestrzeń)
 
@@ -497,11 +494,11 @@ class KivyGame(Widget):
         self.space.reindex_static()
 ```
 
-Pełny kod pod tagiem  [06-walls](https://gitlab.com/mahomahomaho/pycon-kivygame/tree/06-walls)
+Pełny kod pod tagiem [06-walls](https://gitlab.com/mahomahomaho/pycon-kivygame/tree/06-walls)
 
 #### Cel gry, Screen Manager, Plansza success
 
-Żeby aplikacja chociaż trochę przypominała grę, musi mieć jakiś cel. Niech to będzie dotarcie do ściany po prawej. 
+Żeby aplikacja chociaż trochę przypominała grę, musi mieć jakiś cel. Niech to będzie dotarcie do ściany po prawej.
 
 W tym celu robimy dwie rzeczy. Identyfikujemy która ściana jest celem i nadajemy jej inny `collision_type`
 
@@ -541,11 +538,11 @@ handler kolizji między `defs.fred_collision_type` a `defs.goal_collision_type`
         print("\n\nSUCCESS!!!\n\n")
 ```
 
-Kod pod tagiem  [07-goal-01](https://gitlab.com/mahomahomaho/pycon-kivygame/tree/07-goal-01)
+Kod pod tagiem [07-goal-01](https://gitlab.com/mahomahomaho/pycon-kivygame/tree/07-goal-01)
 
-No tak, ale print na konsolę to kiepski pomysł w grze. Trzeba zrobić jakąś planszę. Najlepiej użyć `ScreenManager` który trzyma grę jako jeden z ekranów, planszę z wynikiem jako inny, można tam jeszcze wstawić planszę powitalną, planszę z *Game Over* itd...
+No tak, ale print na konsolę to kiepski pomysł w grze. Trzeba zrobić jakąś planszę. Najlepiej użyć `ScreenManager` który trzyma grę jako jeden z ekranów, planszę z wynikiem jako inny, można tam jeszcze wstawić planszę powitalną, planszę z _Game Over_ itd...
 
-A więc w kivygame.kv jest zawartość klasy GameScreenManager (w nawiasach ostrych - a więc nie mamy tworzenia instancji, ta będzie stworzona w *main.py*)
+A więc w kivygame.kv jest zawartość klasy GameScreenManager (w nawiasach ostrych - a więc nie mamy tworzenia instancji, ta będzie stworzona w _main.py_)
 
 ```python
 <GameScreenManager>:
@@ -559,15 +556,16 @@ A więc w kivygame.kv jest zawartość klasy GameScreenManager (w nawiasach ostr
             size: root.size
 
             Label:
-                font_size: '100sp' 
+                font_size: '100sp'
                 text: "Success!"
 ```
 
 oraz w main.py:
+
 ```python
 class GameScreenManager(ScreenManager):
     pass
- 
+
 
 class KivyGame(Widget):
     def __init__(self, *a, **kwa):
@@ -586,60 +584,54 @@ class KivyGameApp(App):
     def build(self):
         self.sm = GameScreenManager()
         return self.sm
-       
+
 ```
 
-Tag  [07-goal-2](https://gitlab.com/mahomahomaho/pycon-kivygame/tree/07-goal-2)
+Tag [07-goal-2](https://gitlab.com/mahomahomaho/pycon-kivygame/tree/07-goal-2)
 
-Wynik: 
+Wynik:
 
 ![goal reached](files/07-goal02.png)
 
 ### Stress test - zwiększamy liczbę balonów ...
 
-No to zróbmy mały stress test - zwiększmy liczbę balonów do 20, 40, 80, 160 .... i zobaczmy kiedy zacznie "ciąć". 
+No to zróbmy mały stress test - zwiększmy liczbę balonów do 20, 40, 80, 160 .... i zobaczmy kiedy zacznie "ciąć".
 
-* Przy 80 balonach, musiałem zmniejszyć rozmiar balona o połowę, ponieważ nie mieściły się na planszy. (tag `08-stress-80`)
-* Przy 320 balonach, ponownie musiałem to zrobić (tag `08-stress-320`) i wtedy odnotowałem pierwsze objawy zacinania, zwłaszcza w momencie kiedy robiło się ciasno. 
-* Przy 1280 balonach, zacinanie stało się bardzo widoczne, mimo zmniejszenia rozmiaru balodu do `15,15`. Ale jeszcze momentami ruch był płynny. 
-* 3000 balonów to już było zdecydowanie za dużo dla mojego sprzetu (i3 z 1.6, bez wspomagania grafiki)
+- Przy 80 balonach, musiałem zmniejszyć rozmiar balona o połowę, ponieważ nie mieściły się na planszy. (tag `08-stress-80`)
+- Przy 320 balonach, ponownie musiałem to zrobić (tag `08-stress-320`) i wtedy odnotowałem pierwsze objawy zacinania, zwłaszcza w momencie kiedy robiło się ciasno.
+- Przy 1280 balonach, zacinanie stało się bardzo widoczne, mimo zmniejszenia rozmiaru balodu do `15,15`. Ale jeszcze momentami ruch był płynny.
+- 3000 balonów to już było zdecydowanie za dużo dla mojego sprzetu (i3 z 1.6, bez wspomagania grafiki)
 
+# KivEnt
 
-
-KivEnt
-======
-
-
-Kivent - omówienie
-------------------
+## Kivent - omówienie
 
 **Kivent** jest biblioteką do tworzenia gier, opartą na **Kivy** i **Cymunk**.
 Składa się z kilku modułów, z których interesują nas tutaj dwa: `kivent_core` i
-`kivent_cymunk`. 
+`kivent_cymunk`.
 
-Głownym autorem *KivEnt* jest [Jacob Kovacs](https://github.com/Kovak).
+Głownym autorem _KivEnt_ jest [Jacob Kovacs](https://github.com/Kovak).
 
-Zalety i wady Kivent w stosunku do Kivy
----------------------------------------
+## Zalety i wady Kivent w stosunku do Kivy
 
-Aplikacja w *Kivent* jest jednocześnie aplikacją w *Kivy*, więc automatycznie mają zastosowaie wady i zalety *Kivy*. 
+Aplikacja w _Kivent_ jest jednocześnie aplikacją w _Kivy_, więc automatycznie mają zastosowaie wady i zalety _Kivy_.
 
 Zalety:
 
-* jest biblioteką "wszystkomającą". Jest tam i fizyka i kamera, i śledzenie tą kamerą obiektu, wsparcie dla przesuwania dwoma palcami itd. Dużo bajerów które mogą się przydać. 
-* jest wydajniejsza (napisana w Cythonie)
+- jest biblioteką "wszystkomającą". Jest tam i fizyka i kamera, i śledzenie tą kamerą obiektu, wsparcie dla przesuwania dwoma palcami itd. Dużo bajerów które mogą się przydać.
+- jest wydajniejsza (napisana w Cythonie)
 
 Wady:
-* ma znacznie mniejsze grono developerów, więc jak znajdziesz błąd - nastaw się na to że będziesz go sam naprawiał. 
-* jest skomplikowana, jeżeli znajdziesz błąd i będziesz go sam naprawiał, nastaw się że nie będzie lekko (no chyba że dobrze znasz Cythona i OpenGL).
-* więcej się trzeba "opisać" żeby stworzyć minimalną aplikację. Więcej wysiłku żeby rozpocząć - gorsza do prototypowania. 
-* Kivent oparte jest na wzorcu **ECS** (*Entity-Component-System*) i o ile jest
+
+- ma znacznie mniejsze grono developerów, więc jak znajdziesz błąd - nastaw się na to że będziesz go sam naprawiał.
+- jest skomplikowana, jeżeli znajdziesz błąd i będziesz go sam naprawiał, nastaw się że nie będzie lekko (no chyba że dobrze znasz Cythona i OpenGL).
+- więcej się trzeba "opisać" żeby stworzyć minimalną aplikację. Więcej wysiłku żeby rozpocząć - gorsza do prototypowania.
+- Kivent oparte jest na wzorcu **ECS** (_Entity-Component-System_) i o ile jest
   to ponoć lepszy sposób na tworzenie gier niż oparcie ich o **OOP**, to nie
   ułatwia to stworzenia szybkiego prototypu gry, zwłaszcza jeżeli ktoś nie jest
   "otrzaskany" z **ECS**.
 
-Tworzenie gry w Kivent
-----------------------
+## Tworzenie gry w Kivent
 
 To będzie taka sama gra jak w Kivy, z dodatkowym udziałem kilku bajerów pochodzących z **Kivent**
 
@@ -663,7 +655,7 @@ Successfully installed kivent-cymunk-1.0.0
 
 ```
 
-Teraz prościutka, pusta aplikacja. Skopiowane z drobnymi modyfikacjami [z przykładów KivEnt](https://github.com/kivy/kivent/tree/master/examples/4_adding_physics_objects). 
+Teraz prościutka, pusta aplikacja. Skopiowane z drobnymi modyfikacjami [z przykładów KivEnt](https://github.com/kivy/kivent/tree/master/examples/4_adding_physics_objects).
 
 [kiventgame.kv](https://gitlab.com/mahomahomaho/pycon-kiventgame/blob/01-emptyapp/kiventgame.kv):
 
@@ -725,7 +717,7 @@ if __name__ == '__main__':
 
 I o ile dotąd wyglądało to mniej więcej prosto, to teraz człowiek się opisać jak głupi.
 
-Najpierw, trzeba pobrać plik shadera, skopiowałem go z przykładów *Kivent*:
+Najpierw, trzeba pobrać plik shadera, skopiowałem go z przykładów _Kivent_:
 
 ```bash
 maho@dlaptop:~/workspace/kiventgames/kiventgame$ mkdir assets
@@ -735,6 +727,7 @@ maho@dlaptop:~/workspace/kiventgames/kiventgame$ wget -nv -O assets/positionrota
 ```
 
 W kiventgame.kv trzeba dopisać kilka systemów:
+
 ```python
 <KiventGame>:
     [...]
@@ -742,7 +735,7 @@ W kiventgame.kv trzeba dopisać kilka systemów:
             system_id: 'position'
             gameworld: gameworld
             zones: ['general']
-        
+
         RotateSystem2D:
             system_id: 'rotate'
             gameworld: gameworld
@@ -752,13 +745,14 @@ W kiventgame.kv trzeba dopisać kilka systemów:
             gameworld: gameworld
             zones: ['general']
             shader_source: 'assets/positionrotateshader.glsl'
-        
+
         CymunkPhysics:
             gameworld: root.gameworld
             zones: ['general']
 ```
 
 Zaś w main.py, trzeba te system dodać do `init_gameworld`:
+
 ```python
 class KiventGame(Widget):
     def __init__(self, **kwargs):
@@ -767,7 +761,7 @@ class KiventGame(Widget):
                                       callback=self.init_game)
 ```
 
-No i dodanie obiektu: dodanie obiektu Freda, wymaga wypełnienia kolosalnego wprost słownika, gdzie nie ma żadnych wartości domyślnych. Literalnie każdy jeden parametr musi być wypełniony. 
+No i dodanie obiektu: dodanie obiektu Freda, wymaga wypełnienia kolosalnego wprost słownika, gdzie nie ma żadnych wartości domyślnych. Literalnie każdy jeden parametr musi być wypełniony.
 
 ```python
     def draw_objects(self):
@@ -873,7 +867,7 @@ class KiventGame(Widget):
 
 #### Input
 
-To nadal *Kivy*, więc input będzie niemal identyczny jak w *KivyGame*:
+To nadal _Kivy_, więc input będzie niemal identyczny jak w _KivyGame_:
 
 ```python
 class KiventGame(Widget):
@@ -968,6 +962,7 @@ class KiventGame(Widget):
 ```
 
 Oraz `CymunkPhysics` musi uzyskać uchwyt w pliku .kv i mieć dostęp do self.physics:
+
 ```python
 <KiventGame>:
     [...]
@@ -978,7 +973,7 @@ Oraz `CymunkPhysics` musi uzyskać uchwyt w pliku .kv i mieć dostęp do self.ph
             id: physics
 ```
 
-Wygląda zupełnie jak w wersji *Kivy*:
+Wygląda zupełnie jak w wersji _Kivy_:
 
 ![like in Kivy](files/kivent-walls.png)
 
@@ -986,7 +981,7 @@ Tag: `04-walls`
 
 #### Dodajemy cel - dotarcie do ściany, użycie Screen Managera, Plansza success
 
-Ponownie: analogicznie jak w *Kivy*:
+Ponownie: analogicznie jak w _Kivy_:
 
 ```python
 <KiventGame>:
@@ -1001,7 +996,7 @@ Ponownie: analogicznie jak w *Kivy*:
                 size: root.size
 
                 Label:
-                    font_size: '100sp' 
+                    font_size: '100sp'
                     text: "Success!"
 ```
 
@@ -1034,31 +1029,28 @@ class KiventGame(Widget):
 
 Zauważmy, że tutaj nie ma zmiany nazwy ekranu w `ScreenManagerze`, ale jest dodanie stanu `GameWorld`, gdzie przy okazji można zapauzować fizykę.
 
-Interesujące jest także to, że w przypadku *Kivy* - ekran z planszą "Sukces" zastępował grę, tutaj domyślnie plansza jest nad grą:
+Interesujące jest także to, że w przypadku _Kivy_ - ekran z planszą "Sukces" zastępował grę, tutaj domyślnie plansza jest nad grą:
 
 ![tak to wygląda](files/kivent-success.png)
 
-
 #### Stress test
 
-Podobnie jak w przypadku *Kivy*, stress test dla zwiększanej liczby balonów (20, 40, 80....)
+Podobnie jak w przypadku _Kivy_, stress test dla zwiększanej liczby balonów (20, 40, 80....)
 
-Widać ogromną różnicę. O ile w przypadku aplikacji w *Kivy* proces brał cały czas od 90% CPU wzwyż, tutaj mamy ok. 20% i dopiero przy 320 balonach mamy 30% CPU i wiatraki się włączyły. Mimo wszystko nie ma mowy o jakimkolwiek zacinaniu. 
+Widać ogromną różnicę. O ile w przypadku aplikacji w _Kivy_ proces brał cały czas od 90% CPU wzwyż, tutaj mamy ok. 20% i dopiero przy 320 balonach mamy 30% CPU i wiatraki się włączyły. Mimo wszystko nie ma mowy o jakimkolwiek zacinaniu.
 
 ![320 balonów](files/kivent-stress-320.png)
 
 Przy 1280 balonach musiałem zmniejszyć rozmiar balonu do 15x15, bo nie mieściły się na planszy.
 
-Przy 5000 balonach dopiero gra straciła używalność, przez kilka długich sekund, kiedy "balony" były "na kupie", wiatraki szalały a na ekranie nic się nie działo, potem jednak 
+Przy 5000 balonach dopiero gra straciła używalność, przez kilka długich sekund, kiedy "balony" były "na kupie", wiatraki szalały a na ekranie nic się nie działo, potem jednak
 CPU spadło do 60% i gra odzyskała płynność.
 
 ![5000 balonów](files/kivent-stress-5000.png)
 
+## Kivy vs Kivent - podsumowanie
 
-Kivy vs Kivent - podsumowanie
------------------------------
-
-Mimo że w Kivy wszystko trzeba sobie samemu powiązać, jest o wiele prościej i o wiele szybciej jest napisać prototyp gry. 
+Mimo że w Kivy wszystko trzeba sobie samemu powiązać, jest o wiele prościej i o wiele szybciej jest napisać prototyp gry.
 
 W Kivent znowu, żeby rozpocząć, trzeba się rozpisać że aż się odechciewa. Dodatkowo w Kivent występują tego typu błedy:
 
@@ -1079,16 +1071,15 @@ W Kivent znowu, żeby rozpocząć, trzeba się rozpisać że aż się odechciewa
  IndexError: list index out of range
 ```
 
-i wiem, że bład polega na tym że mam źle wypełniony create_dict, ale komunikat o błędzie jest **absolutnie bezużyteczny** w tropieniu, co jest przyczyną i trzeba macać metodą prób i błedów. 
+i wiem, że bład polega na tym że mam źle wypełniony create_dict, ale komunikat o błędzie jest **absolutnie bezużyteczny** w tropieniu, co jest przyczyną i trzeba macać metodą prób i błedów.
 
-Z drugiej strony, w Kivent, jeżeli już się przemożemy, jest o wiele, wiele wydajniej. Dodatkowo, jest cała masa gadżetów które nie zostały tutaj opisane, jak skalowanie mapy (ręczne i automatyczne), przesywanie dwoma palcami, śledzenie obiektu (kamerą), wiele kamer w widoku, *particles* i wiele innych. 
+Z drugiej strony, w Kivent, jeżeli już się przemożemy, jest o wiele, wiele wydajniej. Dodatkowo, jest cała masa gadżetów które nie zostały tutaj opisane, jak skalowanie mapy (ręczne i automatyczne), przesywanie dwoma palcami, śledzenie obiektu (kamerą), wiele kamer w widoku, _particles_ i wiele innych.
 
-Reasumując: jeżeli chcesz na szybko machnąć prototyp, wybierz *Kivy*. Jeżeli jednak coś więcej, przepisz to potem na *Kivent*. 
+Reasumując: jeżeli chcesz na szybko machnąć prototyp, wybierz _Kivy_. Jeżeli jednak coś więcej, przepisz to potem na _Kivent_.
 
-Linki
-=====
+# Linki
 
-* https://github.com/kivy/kivent
-* https://github.com/kivy/kivent/tree/master/examples/4_adding_physics_objects
-* https://pl.wikipedia.org/wiki/Entity-component-system
-* http://kivy.org/docs/guide/lang.html
+- https://github.com/kivy/kivent
+- https://github.com/kivy/kivent/tree/master/examples/4_adding_physics_objects
+- https://pl.wikipedia.org/wiki/Entity-component-system
+- http://kivy.org/docs/guide/lang.html

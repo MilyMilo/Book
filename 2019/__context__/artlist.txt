@@ -18,6 +18,25 @@ pycon2019 pycon2019
 
 %% Zakładam że tu leci 'spis treści' z których generujemy
 
+%% 2018
+%% TODO %% test-suite presentations/2018/is-your-test-suite-wasting-your-time
+%% TODO %% blockchain presentations/2018/lets-build-a-blockchain
+%% TODO %% kivy presentations/2018/tworzenie-gier-w-kivy-i-kivent
+
+bdd presentations/2018/przygotowanie-do-rownoleglego-uruchamiania-testow-bdd
+azure presentations/2018/python-microsoft-azure
+teaching presentations/2018/secret-art-of-teaching-young-generation-coding
+iot presentations/2018/student-pm-and-iot
+testable presentations/2018/testable-code
+
+%% DONE %% bdd presentations/2018/przygotowanie-do-rownoleglego-uruchamiania-testow-bdd
+%% DONE %% azure presentations/2018/python-microsoft-azure
+%% DONE, ADD EMAIL %% teaching presentations/2018/secret-art-of-teaching-young-generation-coding
+%% DONE %% iot presentations/2018/student-pm-and-iot
+%% DONE, IMG CORRECT %% testable presentations/2018/testable-code
+
+%% 2019
+
 deep_learning presentations/a-gentle-introduction-to-deep-reinforcement-learning
 agile presentations/agile-mindset-and-code
 ble presentations/bluetooth-low-energy-z-pybluez

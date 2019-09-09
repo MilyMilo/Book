@@ -38,6 +38,30 @@ files_to_copy = {
         "../../../presentations/kompilator-w-pythonie/",
         "parseTree.png",
     ],
+    "blockchain": [
+        "../../../presentations/2018/lets-build-a-blockchain/",
+        "block.png",
+        "blockchain.png",
+        "blockchain2.png",
+        "difficulty.png",
+    ],
+    "testable": [
+        "../../../presentations/2018/testable-code/",
+        "do-things-right.jpg",
+    ],
+    "kivy": [
+        "../../../presentations/2018/tworzenie-gier-w-kivy-i-kivent/",
+        "01-bare-app.png",
+        "02-fred-and-baloons.png",
+        "05-physics-01.png",
+        "07-goal02.png",
+        "08-stress-320.png",
+        "kivent-stress-320.png",
+        "kivent-stress-5000.png",
+        "kivent-success.png",
+        "kivent-walls.png",
+        "walls.png",
+    ]
 }
 
 

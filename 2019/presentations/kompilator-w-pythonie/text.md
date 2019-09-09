@@ -66,7 +66,7 @@ Wynikowy strumień tokenów można następnie przekazać do analizy składniowej
 
 Jest to etap wykonywany przez część kompilatora zwaną _parserem_ lub _analizatorem składniowym_. Parser, według ściśle określonych reguł, z otrzymanego strumienia tokenów generuje drzewo wyprowadzenia (ang. Parse Tree/Concrete Syntax Tree). Drzewo to odzwierciedla strukturę naszego kodu; liśćmi w tym drzewie są tokeny dostarczone przez Lekser, a gałęziami zasady składniowe, o których jeszcze sobie powiemy. W tym etapie wykrywane są błędy składniowe (ang. syntax errors). Przejdźmy teraz do przykładu działania parsera; chcielibyśmy aby nasz kompilator z wyżej umieszczonego strumienia tokenów wygenerował następujące drzewo wyprowadzenia:
 
-![](parseTree.png)
+![Drzewo wyprowadzenia.](parseTree.png)
 
 Na powyższym drzewie wyprowadzenia dobrze widać strukturę naszego programu; widać, które tokeny składają się na definicję funkcji (_funDef_), wywołanie funkcji (_funcCall_) oraz na operacje matematyczne dodawania i mnożenia. Co więcej, z tego drzewa można odczytać, że została zachowana poprawna kolejność wykonywania działań, czyli mnożenie ma w naszym języku pierwszeństwo przed dodawaniem.
 
@@ -81,8 +81,7 @@ Na szczęście dla nas, ANTLR4 pozwala wygenerować kod Leksera i Parsera, czyli
 - gramatyka leksykalna (zasady leksykalne czyli definicje tokenów), która jest swego rodzaju słownikiem naszego języka, ponieważ są w niej zapisane wszystkie słowa, których możemy w języku użyć
 - gramatyka składniowa (zasady składniowe), która definiuje składnię naszego języka, w niej opisana jest każda dozwolona w naszym języku konstrukcja, oraz np. to czy bloki kodu mają być wyznaczone wcięciami czy klamerkami, czy w naszym języku będą istnieć klasy, metody, funkcje, etc.
 
-Wróćmy do naszego pliku z gramatyką; powinien on nosić nazwę
-
+Wróćmy do naszego pliku z gramatyką; powinien on nosić nazwę  
 `nazwa_naszego_języka.g4`, a pierwsza linia musi wyglądać w następujący sposób: `grammar nazwa_naszego_języka;`. W kolejnych liniach pliku znajdują się zasady gramatyki w formie:
 
     nazwa_zasady: opis_zasady;
@@ -158,7 +157,8 @@ Wykonujemy komendę `antlr4` wskazując, że językiem wynikowym ma być `Python
             return self.visitChildren(ctx)
         ...
 
-Domyślnie, każda z wygenerowanych dla zasad składniowych metod (`visitNazwaZasady`) przechodzi dalej po wszystkich swoich dzieci za pomocą metody `visitChildren` (która z kolei dla każdego dziecka wywołuje `visitNazwaZasady`), natomiast nic nie stoi na przeszkodzie, żeby zamiast tej metody _visit_ wywołać jakąś inną. Generalnie, chcąc skorzystać z Visitora nie powinno się edytować klasy `ConpyVisitor`, a raczej stworzyć sobie własnego Visitora, który będzie po niej dziedziczył i nadpisywał metody, których potrzebujemy - i tak też zrobimy w dalszej części artykułu. Najpierw jednak zaczniemy od stworzenia szkieletu naszego programu do którego później będziemy dodawać kolejne fragmenty kodu:
+Domyślnie, każda z wygenerowanych dla zasad składniowych metod  
+(`visitNazwaZasady`) przechodzi dalej po wszystkich swoich dzieci za pomocą metody `visitChildren` (która z kolei dla każdego dziecka wywołuje `visitNazwaZasady`), natomiast nic nie stoi na przeszkodzie, żeby zamiast tej metody _visit_ wywołać jakąś inną. Generalnie, chcąc skorzystać z Visitora nie powinno się edytować klasy `ConpyVisitor`, a raczej stworzyć sobie własnego Visitora, który będzie po niej dziedziczył i nadpisywał metody, których potrzebujemy - i tak też zrobimy w dalszej części artykułu. Najpierw jednak zaczniemy od stworzenia szkieletu naszego programu do którego później będziemy dodawać kolejne fragmenty kodu:
 
     import subprocess
     import sys
@@ -361,7 +361,8 @@ W zasadzie, jeżeli naszą formą pośrednią jest język C to naszym kodem wyni
         )
         process.wait()
 
-Pełny kod programu można znaleźć pod adresem [github.com/Kisioj/ConpyCompiler](http://github.com/Kisioj/ConpyCompiler)[^4].
+Pełny kod programu można znaleźć pod adresem  
+ [github.com/Kisioj/ConpyCompiler](http://github.com/Kisioj/ConpyCompiler)[^4].
 
 [^4]: Krzysztof Jura, "Conpy Compiler", [https://github.com/Kisioj/ConpyCompiler](https://github.com/Kisioj/ConpyCompiler)
 
@@ -381,5 +382,7 @@ W przypadku naszego kompilatora optymalizacja kodu wynikowego jest robiona za na
 2. Krzysztof Jura, "Conpy Compiler", [https://github.com/Kisioj/ConpyCompiler](https://github.com/Kisioj/ConpyCompiler)
 3. Wikipedia, "Optymalizacja kodu wynikowego", [https://pl.wikipedia.org/wiki/Optymalizacja_kodu_wynikowego](https://pl.wikipedia.org/wiki/Optymalizacja_kodu_wynikowego)
 4. Terrence Par, "The Definitive ANTLR4 Reference"
-5. Federico Tomassetti, "The ANTLR Mega Tutorial", [https://tomassetti.me/antlr-mega-tutorial/](https://tomassetti.me/antlr-mega-tutorial/)
-6. Dzieje Khorinis, "Daedalus Compiler", [https://github.com/dzieje-khorinis/DaedalusCompiler](https://github.com/dzieje-khorinis/DaedalusCompiler)
+5. Federico Tomassetti, "The ANTLR Mega Tutorial",  
+   [https://tomassetti.me/antlr-mega-tutorial/](https://tomassetti.me/antlr-mega-tutorial/)
+6. Dzieje Khorinis, "Daedalus Compiler",  
+   [https://github.com/dzieje-khorinis/DaedalusCompiler](https://github.com/dzieje-khorinis/DaedalusCompiler)
