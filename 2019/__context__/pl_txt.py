@@ -13,13 +13,13 @@ tex_to_file = 0
 build_dir = "build"
 
 master_pattern = re.compile(
-'''
+    '''
 ^
 pycon
 \d{4}
 $
 ''',
-re.VERBOSE
+    re.VERBOSE
 )
 
 files_to_copy = {
@@ -40,9 +40,11 @@ files_to_copy = {
     ],
 }
 
+
 def apply_patch(diffsrc, gm_dir, test_mode=0):
     src_file = diffsrc + ["/dev/null"]
     return "cat " + src_file[test_mode] + " | patch -d " + gm_dir
+
 
 def run_pandoc(main_md, gm_dir, pyladies=0):
     if pyladies:
@@ -57,7 +59,8 @@ def run_pandoc(main_md, gm_dir, pyladies=0):
         " > ",
         gm_dir,
         "/${TARGET.file}",
-        ])
+    ])
+
 
 def art_src_dir(alias):
     return "../../src/" + alias
@@ -74,9 +77,10 @@ def link_do_src(alias):
         print 'Preparing to create symlink %(source)s -> %(tmp_sr_dir)s' % dict(
             source=source,
             tmp_sr_dir=tmp_sr_dir,
-            )
+        )
     if not os.path.islink(tmp_sr_dir) and os.path.isdir(source):
         os.symlink(source, tmp_sr_dir)
+
 
 def pass_line(one_line):
     if one_line and not one_line.strip().startswith('%'):
@@ -85,8 +89,10 @@ def pass_line(one_line):
         result = 0
     return result
 
+
 def remove_comments(line):
     return line.split('%')[0]
+
 
 def env_command(
         env,
@@ -94,25 +100,31 @@ def env_command(
         source,
         action,
         **kwargs
-        ):
+):
     if debug:
         print('')
-        tmp_format = 'target'; print('Eval: %s %s' % (tmp_format, eval(tmp_format)))
-        tmp_format = 'source'; print('Eval: %s %s' % (tmp_format, eval(tmp_format)))
-        tmp_format = 'action'; print('Eval: %s %s' % (tmp_format, eval(tmp_format)))
-        tmp_format = 'kwargs'; print('Eval: %s %s' % (tmp_format, eval(tmp_format)))
+        tmp_format = 'target'
+        print('Eval: %s %s' % (tmp_format, eval(tmp_format)))
+        tmp_format = 'source'
+        print('Eval: %s %s' % (tmp_format, eval(tmp_format)))
+        tmp_format = 'action'
+        print('Eval: %s %s' % (tmp_format, eval(tmp_format)))
+        tmp_format = 'kwargs'
+        print('Eval: %s %s' % (tmp_format, eval(tmp_format)))
     env.Command(
         target,
         source,
         action,
         **kwargs
-        )
+    )
+
 
 def read_file(name):
     fd = open(name, 'rb')
     data = fd.read()
     fd.close()
     return data
+
 
 def write_file(name, data):
     fd = open(name, 'wb')
@@ -121,7 +133,8 @@ def write_file(name, data):
     print("Written %d bytes to '%s'" % (
         len(data),
         name,
-        ))
+    ))
+
 
 def write_if_needed(name, new_data):
     if os.path.isfile(name):
@@ -131,12 +144,14 @@ def write_if_needed(name, new_data):
     if prev_data != new_data:
         write_file(name, new_data)
 
+
 def prepare_file(al_loc_ls):
     line_ls = []
     for alias, location in al_loc_ls:
         elem = '%s %s\n' % (alias, location)
         line_ls.append(elem)
     return ''.join(line_ls)
+
 
 def prepare_line(tty_columns, alias, location):
     if tty_columns:
@@ -147,23 +162,27 @@ def prepare_line(tty_columns, alias, location):
             alias,
             ' ',
             location,
-            ])
+        ])
     else:
         txt_line = ''
     return txt_line
 
+
 def art_home(alias):
     return "%s/%s" % (build_dir, alias)
+
 
 def art_file_core(alias):
     return ''.join([
         art_home(alias),
         '/',
         alias,
-        ])
+    ])
+
 
 def art_file_pdf(alias):
     return art_file_core(alias) + '.pdf'
+
 
 def art_pages_file():
     return art_home('artpages.inc')
@@ -239,7 +258,7 @@ class OneTalk(object):
                     print 'Copy %(full_src)s to %(full_dst)s' % dict(
                         full_src=full_src,
                         full_dst=full_dst,
-                        )
+                    )
                 shutil.copyfile(full_src, full_dst)
 
     def run_tex_for_chapter(self):
@@ -269,7 +288,7 @@ class OneTalk(object):
             print 'Move %(full_src)s to %(full_dst)s' % dict(
                 full_src=full_src,
                 full_dst=full_dst,
-                )
+            )
         if os.path.isfile(full_src):
             result = os.rename(full_src, full_dst)
             if verbose:
